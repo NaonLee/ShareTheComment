@@ -4,6 +4,6 @@
 	
 <configuration>
 	<typeAliases>
-		<typeAlias type="" alias=""/>
+		<typeAlias type="com.spring.shareComm.member.vo.MemberVO" alias="memberVO"/>
 	</typeAliases>
 </configuration>
