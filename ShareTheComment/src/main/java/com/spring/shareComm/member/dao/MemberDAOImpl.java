@@ -18,11 +18,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public List selectAllMembers() {
 		List<MemberVO> membersList = new ArrayList<MemberVO>();
 		membersList = sqlSession.selectList("mapper.member.selectAllMembers");
-		
-		System.out.println("id: " + membersList.get(0).getId() + " From DAO");
-		
-		
 		return membersList;
+	}
+	
+	public MemberVO select(String id) {
+		MemberVO memberVO = sqlSession.selectOne("mapper.member.selectMember", id);
+		return memberVO;
 	}
 
 	@Override

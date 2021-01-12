@@ -10,7 +10,7 @@ import com.spring.shareComm.member.vo.MemberVO;
 
 public interface MemberController {
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView addMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response);
-	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response);
-	public ModelAndView modMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response);
+	public ModelAndView addMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;;
+	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;;
+	public ModelAndView modMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

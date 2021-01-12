@@ -31,7 +31,8 @@
 				<td width=300 align="center">${member.email}</td>
 				<td width=300 align="center">${member.joinDate}</td>
 				<td><a href="${contextPath}/member/removeMember.do?id=${member.id}">Delete</a>
-				<a href="${contextPath}/member/modMember.do?id=${member.id}">Modify</a></td>
+				<a href="${contextPath}/member/modForm.do?id=${member.id}">Modify</a></td>
+				<td hidden="true" value="${member.id}"></td>
 				</tr>
 			</c:forEach>
 		

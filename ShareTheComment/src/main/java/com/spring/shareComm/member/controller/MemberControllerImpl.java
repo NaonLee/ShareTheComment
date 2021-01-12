@@ -23,11 +23,13 @@ import com.spring.shareComm.member.vo.MemberVO;
 public class MemberControllerImpl implements MemberController{
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	MemberVO memberVO;
 	
-	@Override
+	//list all members
+	@Override	
 	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("call selectAll from controller");
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("html/text; charset=utf-8");
@@ -36,25 +38,30 @@ public class MemberControllerImpl implements MemberController{
 		List membersList = memberService.selectAll();
 		String viewName = getViewName(request);
 		
+		//Bind members list 
 		mav.addObject("membersList", membersList);
 		mav.setViewName(viewName);
 		System.out.println("viewName: " +viewName);
 		return mav;
 	}
 
+	//insert a new member
 	@Override
 	@RequestMapping(value="/member/addMember.do", method=RequestMethod.POST)
 	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) {
 		memberService.addMember(member);
 		
 		ModelAndView mav = new ModelAndView();
+		//after adding a new member, going back to the list (will be updated to going back to the main)
 		mav.setViewName("redirect:/member/listMembers.do");
 		return mav;
 	}
 
+	//delete a member
 	@Override
 	@RequestMapping(value="/member/removeMember.do", method=RequestMethod.GET)
 	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) {
+		//find data by id
 		memberService.removeMember(id);
 		
 		ModelAndView mav = new ModelAndView();
@@ -62,27 +69,41 @@ public class MemberControllerImpl implements MemberController{
 		return mav;
 	}
 
+	//update a member
 	@Override
-	public ModelAndView modMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value="/member/modMember.do", method=RequestMethod.POST)
+	public ModelAndView modMember(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		
+		memberService.modMember(memberVO);
+		
+		mav.setViewName("redirect:/member/listMembers.do");
+		return mav;
 	}
-
+	
+	//call forms(memberForm, modForm, etc)
 	@RequestMapping(value="/member/*Form.do")
-	public ModelAndView form(HttpServletRequest request) throws Exception {
+	public ModelAndView modForm(@RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	//if there is an id, put data and there is no id, put null into 'id'
 		ModelAndView mav = new ModelAndView();
 		String viewName =  getViewName(request);
-		mav.setViewName(viewName);
+		
+		//if id value exists
+		if(id != null && id.length() != 0) {
+			memberVO = memberService.select(id);
+			mav.addObject("member", memberVO);
+		}
+		mav.setViewName(viewName);	
 		System.out.println("viewName: " +viewName);
 		return mav;
 	}
+
 	
 	//return view name from requested url
 	private String getViewName(HttpServletRequest request) throws Exception {
 		String contextPath = request.getContextPath();
 		String uri = (String) request.getAttribute("javax.servlet.include.request_uri");
 		if (uri == null || uri.trim().equals("")) {
-			uri = request.getRequestURI();
+			uri = request.getRequestURI();				//if uri is null, force to bring
 		}
 
 		int begin = 0;

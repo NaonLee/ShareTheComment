@@ -1,6 +1,5 @@
 package com.spring.shareComm.member.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,10 @@ public class MemberServiceImpl implements MemberService {
 		List membersList = memberDAO.selectAllMembers();
 		
 		return membersList;
+	}
+	
+	public MemberVO select(String id) {
+		return memberDAO.select(id);
 	}
 
 	@Override

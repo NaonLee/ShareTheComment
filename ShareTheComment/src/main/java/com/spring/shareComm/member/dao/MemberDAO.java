@@ -9,5 +9,5 @@ public interface MemberDAO {
 	public void insertMember(MemberVO memberVO);
 	public void deleteMember(String id);
 	public void updateMember(MemberVO memberVO);
-	
+	public MemberVO select(String id);
 }

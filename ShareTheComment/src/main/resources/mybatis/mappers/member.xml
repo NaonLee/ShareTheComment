@@ -18,6 +18,12 @@
 		]]>
 	</select>
 	
+	<select id="selectMember" parameterType="String" resultType="memberVO">
+		<![CDATA[
+			SELECT * FROM p_member WHERE id=#{id}
+		]]>
+	</select>
+	
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
 			INSERT INTO p_member(id,pwd,name,email) VALUES(#{id},#{pwd},#{name},#{email})
@@ -26,7 +32,7 @@
 	
 	<update id="updateMember" parameterType="memberVO">
 		<![CDATA[
-			UPDATE p_member SET pwd=#{pwd},name=#{name},#{email}={email} WHERE id=#{id}
+			UPDATE p_member SET pwd=#{pwd}, name=#{name}, email=#{email} WHERE id=#{id}
 		]]>
 	</update>
 	
