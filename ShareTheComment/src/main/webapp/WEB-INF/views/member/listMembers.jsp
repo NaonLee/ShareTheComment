@@ -10,9 +10,29 @@
 <head>
 <meta charset="UTF-8">
 <title>listMember</title>
+<c:choose>
+	<c:when test="${isLogOn == true && logMember.id == 'admin'}">
+		<script>
+			window.onload=function(){
+				alert("admin");
+			}
+		</script>
+	</c:when>
+</c:choose>
 </head>
 <body>
+<c:choose>
+		<c:when test="${isLogOn==true}">
+			<h4>Hello ${member.id}</h4>
+			<a href="${contextPath}/member/logout.do">Logout</a>
+		</c:when>
+		<c:otherwise>
+			<a href="${contextPath}/member/loginForm.do">Login</a>
+			
+		</c:otherwise>
+	</c:choose>
 	<h2 align="center">ListMember</h2>
+	<h3>${result}</h3>
 	<table border="1" align="center">
 		<tr>
 			<td align="center">ID</td>

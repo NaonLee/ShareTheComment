@@ -10,4 +10,5 @@ public interface MemberService {
 	public void addMember(MemberVO memberVO);
 	public void removeMember(String id);
 	public void modMember(MemberVO memberVO);
+	public MemberVO login(MemberVO memberVO);
 }

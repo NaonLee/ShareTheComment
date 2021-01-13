@@ -39,6 +39,11 @@ public class MemberServiceImpl implements MemberService {
 	public void modMember(MemberVO memberVO) {
 		memberDAO.updateMember(memberVO);
 	}
+
+	@Override
+	public MemberVO login(MemberVO memberVO) {
+		return memberDAO.loginById(memberVO);
+	}
 	
 	
 	

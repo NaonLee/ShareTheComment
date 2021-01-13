@@ -42,7 +42,7 @@
 		]]>
 	</delete>
 	
-	<select id="loginById" parameterType="memberVO">
+	<select id="loginById" parameterType="memberVO" resultType="memberVO">
 		<![CDATA[
 			SELECT * FROM p_member WHERE id=#{id} and pwd=#{pwd}
 		]]>

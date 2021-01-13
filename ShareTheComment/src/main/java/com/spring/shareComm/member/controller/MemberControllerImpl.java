@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shareComm.member.service.MemberService;
 import com.spring.shareComm.member.vo.MemberVO;
@@ -25,6 +27,13 @@ public class MemberControllerImpl implements MemberController{
 	MemberService memberService;
 	@Autowired
 	MemberVO memberVO;
+	
+	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("main");
+		
+		return mav;
+	}
 	
 	//list all members
 	@Override	
@@ -81,9 +90,43 @@ public class MemberControllerImpl implements MemberController{
 		return mav;
 	}
 	
+	//login
+	@RequestMapping(value="/member/login.do", method=RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		memberVO = memberService.login(member);
+		HttpSession session = request.getSession();
+		
+		if(memberVO != null) {	
+			session.setAttribute("isLogOn", true);		//status of login
+			session.setAttribute("logMember", memberVO);	//information of user logging in
+			
+			String action = (String)session.getAttribute("action");
+			System.out.println("action: " + action);
+			mav.setViewName("redirect:/main.do");
+			
+		} else {					//if id and password don't match to data in DB
+			System.out.println("wrong id or pwd");
+			mav.addObject("result", "loginFailed");
+			mav.setViewName("redirect:/member/loginForm.do");
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value="/member/logout.do")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("logMember");
+		
+		mav.setViewName("redirect:/main.do");
+		return mav;
+	}
+	
 	//call forms(memberForm, modForm, etc)
 	@RequestMapping(value="/member/*Form.do")
-	public ModelAndView modForm(@RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	//if there is an id, put data and there is no id, put null into 'id'
+	public ModelAndView modForm(@RequestParam(value="result", required = false) String result, @RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	//if there is an id, put data and there is no id, put null into 'id'
 		ModelAndView mav = new ModelAndView();
 		String viewName =  getViewName(request);
 		
@@ -92,6 +135,7 @@ public class MemberControllerImpl implements MemberController{
 			memberVO = memberService.select(id);
 			mav.addObject("member", memberVO);
 		}
+		mav.addObject("result", result);
 		mav.setViewName(viewName);	
 		System.out.println("viewName: " +viewName);
 		return mav;
