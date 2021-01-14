@@ -19,13 +19,28 @@
 	function modify(obj){
 		document.getElementById("id_title").disabled=false;
 		document.getElementById("id_content").disabled=false;
-		document.getElementById("modify_button").style.display="block";
+		document.getElementById("modify_btn").style.display="block";
 		document.getElementById("btn").style.display="none";
 	}
 	
-	function save(obj){
+	function save_change(obj){
 		obj.action="${contextPath}/board/modArticle.do";
 		obj.submit();
+	}
+	
+	function remove_article(action, articleNO){
+		var form = document.createElement("form");	//create the form for removeArticle
+		form.setAttribute("method", "post");		//set form method 'post'
+		form.setAttribute("action", action);		//set url
+		
+		var article = document.createElement("input");	//create input tag
+		article.setAttribute("type", "hidden");			//type
+		article.setAttribute("name", "articleNO");		//name
+		article.setAttribute("value", articleNO)		//value
+		
+		form.appendChild(article);						//put input into form
+		document.body.appendChild(form);				//put form into body
+		form.submit();
 	}
 </script>
 
@@ -50,14 +65,15 @@
 			<td>Content</td>
 			<td><textarea rows="20" cols="20" name="content" id="id_content" disabled>${article.content}</textarea></td>
 		</tr>
-		<tr id="modify_button" style="display: none">
-			<td><input type="button" value="Save" onclick="save(this.form)"><input type="button" value="Cancel" onclick="back(this.form)"></td>
+		<tr id="modify_btn" style="display: none">
+			<td><input type="button" value="Save" onclick="save_change(this.form)"><input type="button" value="Cancel" onclick="back(this.form)"></td>
 		</tr>
 		<tr id="btn">
 			<td>&nbsp;</td>
 			<td><input type="button" value="Back" onClick="back(this.form)">
 				<c:if test="${logMember.id == article.id}">
-					<input type="button" value="Modify" onclick="modify(this.form)"><input type="button" value="Delete">
+					<input type="button" value="Modify" onclick="modify(this.form)">
+					<input type="button" value="Delete" onclick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
 				</c:if>
 			</td>
 		</tr>

@@ -9,4 +9,5 @@ public interface BoardService {
 	public void addArticle(ArticleVO boardVO);
 	public ArticleVO article(int articleNO);
 	public void modArticle(ArticleVO articleVO);
+	public void removeArticle(int articleNO);
 }

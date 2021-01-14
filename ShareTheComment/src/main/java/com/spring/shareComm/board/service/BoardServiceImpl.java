@@ -31,5 +31,9 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.updateArticle(articleVO);
 		System.out.println("Sertice articleNO-" + articleVO.getArticleNO() + "content-" + articleVO.getContent());
 	}
+	@Override
+	public void removeArticle(int articleNO) {
+		boardDAO.deleteArticle(articleNO);
+	}
 
 }

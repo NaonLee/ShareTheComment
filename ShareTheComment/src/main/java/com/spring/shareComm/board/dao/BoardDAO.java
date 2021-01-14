@@ -9,4 +9,5 @@ public interface BoardDAO {
 	public void insertArticle(ArticleVO articleVO);
 	public ArticleVO selectArticle(int articleNO);
 	public void updateArticle(ArticleVO articleVO);
+	public void deleteArticle(int articleNO);
 }

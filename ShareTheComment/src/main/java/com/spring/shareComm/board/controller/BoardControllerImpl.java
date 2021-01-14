@@ -66,6 +66,16 @@ public class BoardControllerImpl implements BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/board/removeArticle.do")
+	public ModelAndView removeArticle(@RequestParam("articleNO") int no, HttpServletRequest request) throws Exception {
+		System.out.println("call delete-article");
+		ModelAndView mav = new ModelAndView();
+		boardService.removeArticle(no);
+		
+		mav.setViewName("redirect:/board/listArticles.do");
+		return mav;
+	}
+	
 	@RequestMapping(value="/board/*Form.do")
 	public ModelAndView form(HttpServletRequest request) throws Exception {
 		System.out.println("call addForm");

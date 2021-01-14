@@ -49,4 +49,12 @@
 			WHERE articleNO=#{articleNO}
 		]]>
 	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		<![CDATA[
+			DELETE 
+			FROM p_board
+			WHERE articleNO=#{articleNO}
+		]]>
+	</delete>
 </mapper>

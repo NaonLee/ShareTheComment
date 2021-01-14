@@ -37,7 +37,10 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.update("mapper.board.updateArticle", articleVO);
 		System.out.println("DAO articleNO-" + articleVO.getArticleNO() + "content-" + articleVO.getContent());
 	}
-	
-	
+
+	@Override
+	public void deleteArticle(int articleNO) {
+		sqlSession.delete("mapper.board.deleteArticle", articleNO);
+	}
 
 }
