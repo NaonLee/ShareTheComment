@@ -21,5 +21,15 @@ public class BoardServiceImpl implements BoardService {
 	public void addArticle(ArticleVO boardVO) {
 		boardDAO.insertArticle(boardVO);
 	}
+	
+	@Override
+	public ArticleVO article(int articleNO) {
+		return boardDAO.selectArticle(articleNO);
+	}
+	@Override
+	public void modArticle(ArticleVO articleVO) {
+		boardDAO.updateArticle(articleVO);
+		System.out.println("Sertice articleNO-" + articleVO.getArticleNO() + "content-" + articleVO.getContent());
+	}
 
 }

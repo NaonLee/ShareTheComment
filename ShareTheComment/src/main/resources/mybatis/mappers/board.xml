@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.board">
+	<resultMap type="articleVO" id="bodResult">
+		<result property="articleNO" column="articleNO"/>
+		<result property="parentNO" column="parentNO"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="writtenDate" column="writtenDate"/>
+		<result property="id" column="id"/>
+	</resultMap>
+	
+	<select id="selectAllArticles" resultMap="bodResult">
+		<![CDATA[
+			SELECT *
+			FROM p_board
+		]]>
+	</select>
+	
+	<select id="selectArticle" resultType="articleVO" parameterType="int">
+		<![CDATA[
+			SELECT * 
+			FROM p_board 
+			WHERE articleNO=#{articleNO}
+		]]>
+	</select>
+	
+	<insert id="insertArticle" parameterType="articleVO">
+		<![CDATA[
+			INSERT INTO p_board(articleNO, title, content, id)
+			VALUES (#{articleNO}, #{title}, #{content}, #{id})			
+		]]>
+	</insert>
+	
+	<select id="createArticleNO" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(ArticleNO), 0)+1 
+			FROM p_board
+		]]>
+	</select>
+	
+	<update id="updateArticle" parameterType="articleVO">
+		<![CDATA[
+			UPDATE p_board
+			SET title=#{title}, content=#{content}
+			WHERE articleNO=#{articleNO}
+		]]>
+	</update>
+</mapper>

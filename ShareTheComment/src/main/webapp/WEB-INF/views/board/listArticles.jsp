@@ -13,6 +13,15 @@
 <title>Articles</title>
 </head>
 <body>
+	<c:choose>
+		<c:when test="${isLogOn==true}">
+			<h4>Hello ${logMember.id}</h4>
+			<a href="${contextPath}/member/logout.do">Logout</a>
+		</c:when>
+		<c:otherwise>
+			<a href="${contextPath}/member/loginForm.do">Login</a>
+		</c:otherwise>
+	</c:choose>
 	<h2>Article list</h2>
 	<table border="1" align="center">
 		<tr align="center">
@@ -24,13 +33,16 @@
 		<c:forEach var="article" items="${articles}">
 			<tr>
 				<td>${article.articleNO}</td>
-				<td>${article.title}</td>
+				<td><a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a></td>
 				<td>${article.id}</td>
 				<td>${article.writtenDate}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	
-	<a href="${contextPath}/board/articleForm.do">Write</a>
+	<c:choose>
+		<c:when test="${isLogOn==true}">
+			<a href="${contextPath}/board/articleForm.do">Write</a>
+		</c:when>
+	</c:choose>
 </body>
 </html>

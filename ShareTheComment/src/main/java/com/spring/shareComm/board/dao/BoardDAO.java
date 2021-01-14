@@ -6,5 +6,7 @@ import com.spring.shareComm.board.vo.ArticleVO;
 
 public interface BoardDAO {
 	public List selectAllArticles();
-	public void insertArticle(ArticleVO boardVO);
+	public void insertArticle(ArticleVO articleVO);
+	public ArticleVO selectArticle(int articleNO);
+	public void updateArticle(ArticleVO articleVO);
 }

@@ -20,9 +20,24 @@ public class BoardDAOImpl implements BoardDAO {
 		return boardList;
 	}
 
-	@Override
-	public void insertArticle(ArticleVO boardVO) {
-		sqlSession.insert("mapper.board.insertArticle", boardVO);
+	@Override	//add a new article
+	public void insertArticle(ArticleVO articleVO) {
+		int articleNO = sqlSession.selectOne("mapper.board.createArticleNO");		//create article number(maximum articeNO in DB + 1)
+		articleVO.setArticleNO(articleNO);
+		sqlSession.insert("mapper.board.insertArticle", articleVO);
 	}
+
+	@Override
+	public ArticleVO selectArticle(int articleNO) {
+		return sqlSession.selectOne("mapper.board.selectArticle", articleNO);
+	}
+
+	@Override
+	public void updateArticle(ArticleVO articleVO) {
+		sqlSession.update("mapper.board.updateArticle", articleVO);
+		System.out.println("DAO articleNO-" + articleVO.getArticleNO() + "content-" + articleVO.getContent());
+	}
+	
+	
 
 }

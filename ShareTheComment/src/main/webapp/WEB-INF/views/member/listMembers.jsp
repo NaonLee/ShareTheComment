@@ -21,14 +21,13 @@
 </c:choose>
 </head>
 <body>
-<c:choose>
+	<c:choose>
 		<c:when test="${isLogOn==true}">
-			<h4>Hello ${member.id}</h4>
+			<h4>Hello ${logMember.id}</h4>
 			<a href="${contextPath}/member/logout.do">Logout</a>
 		</c:when>
 		<c:otherwise>
 			<a href="${contextPath}/member/loginForm.do">Login</a>
-			
 		</c:otherwise>
 	</c:choose>
 	<h2 align="center">ListMember</h2>

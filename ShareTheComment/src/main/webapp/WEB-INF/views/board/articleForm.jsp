@@ -17,6 +17,7 @@
 	
 	<form action="${contextPath}/board/addArticle.do"method="post">
 		<table width="80%">
+		<tr hidden="hidden"><td><input type="text" name="id" value="${logMember.id}"></td></tr>
 		<tr>
 			<td>title</td>
 			<td><input type="text" name="title"></td>
