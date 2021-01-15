@@ -16,7 +16,7 @@
 		obj.submit();
 	}
 	
-	function modify(obj){
+	function modify_article(obj){
 		document.getElementById("id_title").disabled=false;
 		document.getElementById("id_content").disabled=false;
 		document.getElementById("modify_btn").style.display="block";
@@ -40,6 +40,23 @@
 		
 		form.appendChild(article);						//put input into form
 		document.body.appendChild(form);				//put form into body
+		form.submit();
+	}
+	
+	function reply_article(action, parentNO){
+		var form = document.createElement("form");	//create the form for reply
+		form.setAttribute("method", "post");		//set form method post
+		form.setAttribute("action", action);		//set ulr(*Form)
+		form.setAttribute("hidden", "hidden");
+		
+		var article = document.createElement("input");	//create input
+		article.setAttribute("type", "text");			//type
+		article.setAttribute("name", "parentNO");		//name (current article number will be the parent number)
+		article.setAttribute("value", parentNO);		//value
+		
+		
+		form.appendChild(article);
+		document.body.appendChild(form);
 		form.submit();
 	}
 </script>
@@ -70,9 +87,10 @@
 		</tr>
 		<tr id="btn">
 			<td>&nbsp;</td>
-			<td><input type="button" value="Back" onClick="back(this.form)">
+			<td><input type="button" value="Reply" onClick="reply_article('${contextPath}/board/replyForm.do', ${article.articleNO})">
+				<input type="button" value="Back" onClick="back(this.form)">
 				<c:if test="${logMember.id == article.id}">
-					<input type="button" value="Modify" onclick="modify(this.form)">
+					<input type="button" value="Modify" onclick="modify_article(this.form)">
 					<input type="button" value="Delete" onclick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
 				</c:if>
 			</td>

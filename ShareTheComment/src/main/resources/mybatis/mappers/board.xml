@@ -11,12 +11,16 @@
 		<result property="content" column="content"/>
 		<result property="writtenDate" column="writtenDate"/>
 		<result property="id" column="id"/>
+		<result property="level" column="level"/>
 	</resultMap>
 	
 	<select id="selectAllArticles" resultMap="bodResult">
 		<![CDATA[
-			SELECT *
+			SELECT LEVEL, articleNO, parentNO, title, content, writtenDate, id
 			FROM p_board
+			START WITH  parentNO=0
+     		CONNECT BY PRIOR articleNO=parentNO 
+      		ORDER SIBLINGS BY articleNO DESC
 		]]>
 	</select>
 	
@@ -31,7 +35,16 @@
 	<insert id="insertArticle" parameterType="articleVO">
 		<![CDATA[
 			INSERT INTO p_board(articleNO, title, content, id)
+			
 			VALUES (#{articleNO}, #{title}, #{content}, #{id})			
+		]]>
+	</insert>
+	
+	<insert id="insertReply" parameterType="articleVO">
+		<![CDATA[
+			INSERT INTO p_board(articleNO, parentNO, title, content, id)
+			
+			VALUES (#{articleNO}, #{parentNO}, #{title}, #{content}, #{id})			
 		]]>
 	</insert>
 	

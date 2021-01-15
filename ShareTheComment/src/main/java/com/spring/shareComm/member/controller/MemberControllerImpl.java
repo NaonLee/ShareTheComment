@@ -126,7 +126,8 @@ public class MemberControllerImpl implements MemberController{
 	
 	//call forms(memberForm, modForm, etc)
 	@RequestMapping(value="/member/*Form.do")
-	public ModelAndView modForm(@RequestParam(value="result", required = false) String result, @RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	//if there is an id, put data and there is no id, put null into 'id'
+	public ModelAndView modForm(@RequestParam(value="result", required = false) String result, @RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	
+		//if there is an id, put data and there is no id, put null into 'id'
 		ModelAndView mav = new ModelAndView();
 		String viewName =  getViewName(request);
 		

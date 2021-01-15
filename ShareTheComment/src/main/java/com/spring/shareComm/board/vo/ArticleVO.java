@@ -13,6 +13,7 @@ public class ArticleVO {
 	String content;
 	Date writtenDate;
 	String id;
+	int level;
 	
 	public ArticleVO() {}
 
@@ -62,7 +63,13 @@ public class ArticleVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 	
 }

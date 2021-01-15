@@ -23,26 +23,30 @@
 		</c:otherwise>
 	</c:choose>
 	<h2>Article list</h2>
-	<table border="1" align="center">
+	<table border="1" align="center" width="80%">
 		<tr align="center">
 			<td width="10%">Article No</td>
-			<td width="40%">Title</td>
+			<td width="30%">Title</td>
 			<td width="10%">ID</td>
 			<td width="10%">WrittenDate</td>
 		</tr>
 		<c:forEach var="article" items="${articles}">
 			<tr>
 				<td>${article.articleNO}</td>
-				<td><a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a></td>
+				<td style="padding-left: 10px"/>
+				<c:if test="${article.level > 1}">
+					<c:forEach begin="1" end="${article.level}" step="1">
+						<span style="padding-left: 20px"></span>
+					</c:forEach>
+					<span>[Answer]</span>
+				</c:if>
+				<a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a></td>
 				<td>${article.id}</td>
 				<td>${article.writtenDate}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<c:choose>
-		<c:when test="${isLogOn==true}">
 			<a href="${contextPath}/board/articleForm.do">Write</a>
-		</c:when>
-	</c:choose>
+
 </body>
 </html>

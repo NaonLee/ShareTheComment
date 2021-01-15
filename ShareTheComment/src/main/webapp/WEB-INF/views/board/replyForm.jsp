@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<c:if test="${isLogOn == false || isLogOn == null}">
+<c:if test="${isLogOn == false || isLogOn == null}">		<!-- if user isn't logged in -->
 	<script type="text/javascript">
 		window.onload=function(){
 			alert("Please login to write an article!");
@@ -19,14 +19,15 @@
 	</c:if>
 
 <meta charset="UTF-8">
-<title>Articles</title>
+<title>Reply article</title>
 </head>
 <body>
 	<h2 align="center">Article form</h2>
 	
-	<form action="${contextPath}/board/addArticle.do"method="post">
+	<form action="${contextPath}/board/replyArticle.do"method="get">
 		<table width="80%">
 		<tr hidden="hidden"><td><input type="text" name="id" value="${logMember.id}"></td></tr>
+		<tr hidden="hidden"><td><input type="text" name="parentNO" value="${parentNO}"></td></tr>
 		<tr>
 			<td>title</td>
 			<td><input type="text" name="title"></td>
