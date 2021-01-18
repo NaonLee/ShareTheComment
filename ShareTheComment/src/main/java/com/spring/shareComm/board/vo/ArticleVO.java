@@ -14,10 +14,11 @@ public class ArticleVO {
 	Date writtenDate;
 	String id;
 	int level;
+	int likeCount;
 	
 	public ArticleVO() {}
 
-	public ArticleVO(int articleNO, int parentNO, String title, String content, Date writtenDate, String id) {
+	public ArticleVO(int articleNO, int parentNO, String title, String content, Date writtenDate, String id, int likeCount) {
 		super();
 		this.articleNO = articleNO;
 		this.parentNO = parentNO;
@@ -25,6 +26,7 @@ public class ArticleVO {
 		this.content = content;
 		this.writtenDate = writtenDate;
 		this.id = id;
+		this.likeCount = likeCount;
 	}
 
 	public int getArticleNO() {
@@ -71,5 +73,14 @@ public class ArticleVO {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	
 	
 }

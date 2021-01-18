@@ -11,6 +11,7 @@
 		<result property="content" column="content"/>
 		<result property="writtenDate" column="writtenDate"/>
 		<result property="id" column="id"/>
+		<result property="likeCount" column="likeCount"/>
 		<result property="level" column="level"/>
 	</resultMap>
 	

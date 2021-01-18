@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.article_like">
+	<resultMap type="likeVO" id="likeResult">
+		<result property="likeNO" column="likeNO"/>
+		<result property="articleNO" column="articleNO"/>
+		<result property="id" column="id"/>
+	</resultMap>
+	
+	<insert id="createLike" parameterType="articleVO">
+	<![CDATA[
+		INSERT INTO p_like (articleNO, id)
+		VALUES (#{articleNO}, #{id})
+	]]>
+	</insert>
+	
+	<delete id="deleteLike" parameterType="articleVO">
+		<![CDATA[
+			DELETE FROM p_like
+			WHERE id=#{id} and articleNO=#{articleNO}
+		]]>
+	</delete>
+	
+	<!-- update how may likes on specific article -->
+	<select id="updateLike" parameterType="int">
+		UPDATE p_board
+		SET likeCount = (SELECT COUNT(*)
+		FROM p_like
+		WHERE articleNO=#{articleNO})
+		WHERE articleNO = #{articleNO}
+	</select>
+	
+</mapper>
