@@ -9,11 +9,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <!-- Custom styles for this template -->
+  <link href="<c:url value="/resources/css/blog-home.css"/>" rel="stylesheet">
+ <!-- Bootstrap core CSS -->
+  <link href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
+
 <title>footer</title>
+
 </head>
-<body>
-<h1 align="center">Footer</h1>
-	
+<body class="">
+
+    <div class="py-5 bg-dark">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p>
+    </div>
+ <!-- Bootstrap core JavaScript -->
+  <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
+  <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
+
 </body>
+ 
+ 
 </html>

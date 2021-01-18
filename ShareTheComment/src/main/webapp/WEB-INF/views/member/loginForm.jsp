@@ -10,7 +10,53 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+
+<!-- CSS by amatellanes-->
+<style>
+body {
+    padding-top: 50px;
+    font-size: 12px
+  }
+  .main {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .login-or {
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 10px;
+            margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .span-or {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 50px;
+    text-align: center;
+  }
+  .hr-or {
+    background-color: #cdcdcd;
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  h3 {
+ 	 paddint-top: 100px;
+    text-align: center;
+    line-height: 300%;
+  }
+</style>
+
 <title>Login form</title>
+
+<!-- Login failed -->
 <c:choose>
 	<c:when test="${result=='loginFailed'}">
 	<script>
@@ -20,25 +66,62 @@
 	</script>
 	</c:when>
 </c:choose>
+
+<script type="text/javascript">
+	function signUp_btn(obj){
+		obj.action = "${contextPath}/member/memberForm.do";
+		obj.submit();
+	}
+</script>
 </head>
 <body>
-	<h1 align="center">Login</h1>
-	<form name="frmLogin" action="${contextPath}/member/login.do" method="post">
-		<table border="0" align="center">
-			<tr>
-				<td>ID: </td>
-				<td><input type="text" name="id"></td>
-			</tr>
-			<tr>
-				<td>Password: </td>
-				<td><input type="password" name="pwd"></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td align="center"><input type="submit" value="login">
-					<input type="reset" value="reset"></td>
-			</tr>
-		</table>
-	</form>
+	<div class="container">
+  <div class="row">
+
+    <div class="main">
+
+      <h3>Please Log In, or <a href="#">Sign Up</a></h3>
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="#" class="btn btn-lg btn-success btn-block">Naver</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+        </div>
+      </div>
+      <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+
+      <form role="form" action="${contextPath}/member/login.do" method="post" name="frmLogin" >
+        <div class="form-group">
+          <label for="inputUsernameEmail">UserID</label>
+          <input type="text" name="id" class="form-control" id="inputUsernameEmail">
+        </div>
+        <div class="form-group">
+          <a class="pull-right" href="#">Forgot password?</a>
+          <label for="inputPassword">Password</label>
+          <input type="password" name="pwd" class="form-control" id="inputPassword">
+        </div>
+        <div class="checkbox pull-right">
+          <label>
+            <input type="checkbox">
+            Remember me </label>
+        </div>
+        <button type="submit" class="btn btn btn-primary">
+          Log In
+        </button>
+         <button type="button" value="Sign up" class="btn btn btn-dark" onclick="signUp_btn(this.form)">
+        	 Sign up
+        </button>
+      </form>
+
+    </div>
+    
+  </div>
+</div>
+
+	
 </body>
 </html>

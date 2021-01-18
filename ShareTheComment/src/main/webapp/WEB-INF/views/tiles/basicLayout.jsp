@@ -10,14 +10,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+
+#header {
+	padding: 5px;
+	margin-bottom: 5px;
+}
+#sidebar {
+	width: "15%";
+	padding: 5px;
+	float: left;
+	padding-top: 5px;
+}
+
+#content {
+	width: "75%";
+	padding: 5px;
+	margin-right: 5px;
+}
+#footer {
+        clear: both;
+        padding: 5px;
+
+      }
+</style>
+
+
 <title><tiles:insertAttribute name="title"/>
 </head>
 <body>
 	<div>
-		<div><tiles:insertAttribute name="header"/></div>
-		<div width="15%"><tiles:insertAttribute name="side"/></div>
-		<div width="75%"><tiles:insertAttribute name="body"/></div>
-		<div><tiles:insertAttribute name="footer"/></div>
+		<div id="header"><tiles:insertAttribute name="header"/></div>
+		<div id="sidebar"><tiles:insertAttribute name="side"/></div>
+		<div id="content"><tiles:insertAttribute name="body"/></div>
+		<div id="footer"><tiles:insertAttribute name="footer"/></div>
 	</div>
 </body>
 </html>
