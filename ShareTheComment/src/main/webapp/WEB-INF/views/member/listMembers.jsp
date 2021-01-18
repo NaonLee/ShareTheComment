@@ -21,41 +21,40 @@
 </c:choose>
 </head>
 <body>
-	<c:choose>
-		<c:when test="${isLogOn==true}">
-			<h4>Hello ${logMember.id}</h4>
-			<a href="${contextPath}/member/logout.do">Logout</a>
-		</c:when>
-		<c:otherwise>
-			<a href="${contextPath}/member/loginForm.do">Login</a>
-		</c:otherwise>
-	</c:choose>
+	
 	<h2 align="center">ListMember</h2>
-	<h3>${result}</h3>
-	<table border="1" align="center">
-		<tr>
-			<td align="center">ID</td>
-			<td align="center">Password</td>
-			<td align="center">Name</td>
-			<td align="center">Email</td>
-			<td align="center">Joined date</td>
-			<td align="center">Manage</td>
-		</tr>
-		
+	
+	<div class="btn-toolbar">
+	    <button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/member/memberForm.do'">Add member</button>
+	</div>
+	
+	<div class="row">
+	<table class="table table-striped">
+		<thead align="center">
+			<tr>
+				<th width="10%">ID</th>
+				<th width="10%">Password</th>
+				<th width="10%">Name</th>
+				<th width="15%">Email</th>
+				<th width="20%">Joined date</th>
+				<th width="20%">Manage</th>
+			</tr>
+		</thead>
+		<tbody align="center">
 			<c:forEach var="member" items="${membersList}">
 			<tr align="center">
-				<td width=100 align="center">${member.id}</td>
-				<td width=100 align="center">${member.pwd}</td>
-				<td width=200 align="center">${member.name}</td>
-				<td width=300 align="center">${member.email}</td>
-				<td width=300 align="center">${member.joinDate}</td>
-				<td><a href="${contextPath}/member/removeMember.do?id=${member.id}">Delete</a>
+				<td>${member.id}</td>
+				<td>${member.pwd}</td>
+				<td>${member.name}</td>
+				<td>${member.email}</td>
+				<td>${member.joinDate}</td>
+				<td><a href="${contextPath}/member/removeMember.do?id=${member.id}">Delete </a>|
 				<a href="${contextPath}/member/modForm.do?id=${member.id}">Modify</a></td>
 				<td hidden="true" value="${member.id}"></td>
 				</tr>
 			</c:forEach>
-		
+		</tbody>
 	</table>
-	<h2><a href="${contextPath}/member/memberForm.do">Add Member</a></h2>
+	</div>
 </body>
 </html>

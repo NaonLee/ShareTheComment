@@ -65,39 +65,43 @@
 <title>View article</title>
 </head>
 <body>
-	<h2 align="center">Article</h2>
 	
-	<form action="${contextPath}/board/modArticle.do" method="post" name="artForm">
-		<table width="80%">
-		<tr>
-			<td>Article No.</td>
-			<td><input type="text" name="articleNO" value="${article.articleNO}" disabled></td>
-			<td><input name="articleNO" value="${article.articleNO}" hidden="hidden"></td>
-		</tr>
-		<tr>
-			<td>title</td>
-			<td><input type="text" name="title" id="id_title" value="${article.title}" disabled></td>
-		</tr>
-		<tr>
-			<td>Content</td>
-			<td><textarea rows="20" cols="20" name="content" id="id_content" disabled>${article.content}</textarea></td>
-		</tr>
-		<tr id="modify_btn" style="display: none">
-			<td><input type="button" value="Save" onclick="save_change(this.form)"><input type="button" value="Cancel" onclick="back(this.form)"></td>
-		</tr>
-		<tr id="btn">
-			<td>&nbsp;</td>
-			<td><input type="button" value="Reply" onClick="reply_article('${contextPath}/board/replyForm.do', ${article.articleNO})">
-				<input type="button" value="Back" onClick="back(this.form)">
-				<c:if test="${logMember.id == article.id}">
-					<input type="button" value="Modify" onclick="modify_article(this.form)">
-					<input type="button" value="Delete" onclick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
-				</c:if>
-			</td>
-		</tr>
-		</table>	
-	</form>
-	
+	<div class="container" align="center">
+   		<div class="row">
+       	 	<div class="col-md-10">
+	       	 	<h2>Article</h2>
+				<form action="${contextPath}/board/modArticle.do"method="post" >
+	     		<div class="row">
+		         <div class="col-md-12">
+					<div class="form-group">
+                       <input type="text" class="form-control" placeholder="Title" name="title" id="id_title"value="${article.title}" disabled/>
+                   	</div>
+                   	<div class="form-group">
+                       <textarea class="form-control" placeholder="Content" rows="5" name="content"  id="id_content" disabled>${article.content}</textarea>
+                   	</div>
+            	 </div>  
+           		</div>
+           		<div class="row">
+             		<div class="col-md-10">
+	              		 <div class="well well-sm well-primary">
+			 				<div id="modify_btn" style="display: none" class="form-group">
+								<input type="button" value="Save" onclick="save_change(this.form)"><input type="button" value="Cancel" onclick="back(this.form)">
+							</div>
+							<div class="form-group" id="btn">
+	                  			<input type="button"  class="btn btn-success btn-sm" value="Reply" onClick="reply_article('${contextPath}/board/replyForm.do', ${article.articleNO})">
+								<input type="button"  class="btn btn-success btn-sm" value="Back" onClick="back(this.form)">
+								<c:if test="${logMember.id == article.id}">
+									<input type="button"  class="btn btn-success btn-sm" value="Modify" onclick="modify_article(this.form)">
+									<input type="button"  class="btn btn-success btn-sm" value="Delete" onclick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
+								</c:if>
+	                		 </div>
+               			</div>
+              		</div>
+          		 </div>
+          		</form>
+       		 </div>
+  		</div>
+	</div>
 
 </body>
 </html>

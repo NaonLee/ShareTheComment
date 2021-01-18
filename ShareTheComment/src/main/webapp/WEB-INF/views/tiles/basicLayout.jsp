@@ -31,7 +31,6 @@
 #footer {
         clear: both;
         padding: 5px;
-
       }
 </style>
 

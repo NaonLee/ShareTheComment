@@ -22,26 +22,41 @@
 <title>Articles</title>
 </head>
 <body>
-	<h2 align="center">Article form</h2>
-	
-	<form action="${contextPath}/board/addArticle.do"method="post">
-		<table width="80%">
-		<tr hidden="hidden"><td><input type="text" name="id" value="${logMember.id}"></td></tr>
-		<tr>
-			<td>title</td>
-			<td><input type="text" name="title"></td>
-		</tr>
-		<tr>
-			<td>Content</td>
-			<td><textarea rows="40" cols="40" name="content"></textarea></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td><input type="submit" value="Write"><input type="button" value="cancel" onClick=""></td>
-		</tr>
-		</table>	
-	</form>
-	
+
+	<div class="container" align="center">
+    	<div class="row">
+       	 <div class="col-md-10">
+       	 	<h2>Article form</h2>
+			<form action="${contextPath}/board/addArticle.do"method="post" >
+     		<div class="row">
+	         <div class="col-md-12">
+				
+					<div hidden="hidden"><input type="text" name="id" value="${logMember.id}"></div>
+                   	<div class="form-group">
+                       <input type="text" class="form-control" placeholder="Title" name="title" required />
+                   	</div>
+                   	<div class="form-group">
+                       <textarea class="form-control" placeholder="Content" rows="5" name="content" required></textarea>
+                   	</div>
+                 
+             </div>  
+           </div>
+           <div class="row">
+             <div class="col-md-10">
+               <div class="well well-sm well-primary">
+                 <div class="form-group">
+                  	<button type="submit" class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
+                  	<button type="button" class="btn btn-default btn-sm">
+                	<span class="glyphicon glyphicon-eye-open"></span>Preview</button>
+                 </div>
+               </div>
+              </div>
+           </div>
+          </form>
+        </div>
+ 	  </div>
+	</div>
 
 </body>
 </html>
