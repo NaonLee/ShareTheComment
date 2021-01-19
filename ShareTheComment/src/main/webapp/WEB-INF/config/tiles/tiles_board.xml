@@ -20,5 +20,10 @@
 		<put-attribute name="title" value="Article list"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/board/viewArticle.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="/board/modArticleForm" extends="basicLayout">
+		<put-attribute name="title" value="Modify article"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/board/modArticleForm.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
 

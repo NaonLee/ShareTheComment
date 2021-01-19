@@ -14,7 +14,6 @@
 </head>
 <body>
 
-	
 		<div class="view full-page-intro" align="center">
 		
         <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
