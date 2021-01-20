@@ -19,9 +19,14 @@
 <body>
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	   <div class="container">
+	      <a class="navbar-brand" href="${contextPath}/main.do">ShareTheComment</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        		<span class="navbar-toggler-icon"></span>
+      	  </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        
             <li class="nav-item active">
               <a class="nav-link" href="${contextPath}/main.do">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -35,8 +40,8 @@
 		               	${logMember.id}
 		              </a>
 		              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-		                <a class="dropdown-item" href="#">Action</a>
-		                <a class="dropdown-item" href="#">Another action</a>
+		                <a class="dropdown-item" href="#">information</a>
+		                <a class="dropdown-item" href="#">Contact us</a>
 		                <div class="dropdown-divider"></div>
 		                <a class="dropdown-item" href="${contextPath}/member/logout.do">Logout</a>
 		              </div>
@@ -46,9 +51,12 @@
 					<a class="nav-link" href="${contextPath}/member/loginForm.do">Sign in</a>
 				</c:otherwise>
 			</c:choose>
-            
+              <li class="nav-item">
+              <a class="nav-link" href="${contextPath}/board/mailForm.do">Contact US</a>
+            </li>
           </ul>
         </div>
+      </div>
   </nav>
   
 
