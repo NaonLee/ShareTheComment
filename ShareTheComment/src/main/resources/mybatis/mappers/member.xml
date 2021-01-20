@@ -24,6 +24,12 @@
 		]]>
 	</select>
 	
+	<select id="selectMember2" parameterType="memberVO" resultType="memberVO">
+		<![CDATA[
+			SELECT * FROM p_member WHERE id=#{id} and name=#{name}
+		]]>
+	</select>
+	
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
 			INSERT INTO p_member(id,pwd,name,email) VALUES(#{id},#{pwd},#{name},#{email})

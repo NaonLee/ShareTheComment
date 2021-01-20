@@ -26,4 +26,20 @@ public class MailService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendPwd(String email, String pwd) {
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom("ShareComment");
+			messageHelper.setSubject("This is your password");
+			messageHelper.setTo(email);
+			messageHelper.setText("This is your password: " + pwd);
+			mailSender.send(message);
+			
+	}catch (Exception e) {
+		e.printStackTrace();
+	}
+	}
 }

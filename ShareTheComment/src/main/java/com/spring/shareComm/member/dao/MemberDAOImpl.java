@@ -21,9 +21,16 @@ public class MemberDAOImpl implements MemberDAO {
 		return membersList;
 	}
 	
+	@Override
 	public MemberVO select(String id) {
 		MemberVO memberVO = sqlSession.selectOne("mapper.member.selectMember", id);
 		return memberVO;
+	}
+	
+	@Override
+	public MemberVO select(MemberVO memberVO) {
+		return sqlSession.selectOne("mapper.member.selectMember2", memberVO);
+		
 	}
 
 	@Override

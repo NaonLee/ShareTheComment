@@ -2,6 +2,7 @@ package com.spring.shareComm.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +74,30 @@ public class MemberControllerImpl implements MemberController{
 			}
 		}
 			
+	}
+	
+	@RequestMapping("/member/findPwd.do")
+	public ModelAndView findPwd(@ModelAttribute("member") MemberVO member, HttpServletRequest request) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		
+		memberVO = memberService.select(member);
+		System.out.println("membeVO id: " + memberVO.getId() + " name : " + memberVO.getName());
+		
+		if(memberVO != null) {
+			System.out.println("Yeah!");
+			String email = memberVO.getEmail();
+			String pwd = memberVO.getPwd();
+			mav.addObject("email", email);
+			mav.addObject("pwd", pwd);
+			mav.setViewName("redirect:/member/sendPwd.do");
+		} else {
+			System.out.println("find pwd failed.");
+			mav.addObject("fail", "failed");
+			mav.setViewName("redirect:/member/findPWForm.do");
+		}
+		
+		return mav;
 	}
 	
 	//insert a new member

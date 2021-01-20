@@ -22,11 +22,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		return membersList;
 	}
-	
+	@Override
 	public MemberVO select(String id) {
 		return memberDAO.select(id);
 	}
-
+	@Override
+	public MemberVO select(MemberVO memberVO) {
+		return memberDAO.select(memberVO);
+	}
 	@Override
 	public void addMember(MemberVO memberVO) {
 		memberDAO.insertMember(memberVO);

@@ -34,4 +34,18 @@ public class MailController {
 		mav.setViewName("redirect:/main.do");
 		return mav;
 	}
+	
+	@RequestMapping(value="/member/sendPwd.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView sendMail(@RequestParam("email") String email, @RequestParam("pwd") String pwd,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		mailService.sendPwd(email, pwd);				//send to administrator email
+		
+		ModelAndView mav = new ModelAndView();	
+		mav.setViewName("redirect:/member/findPWForm.do");
+		mav.addObject("fail", "suceed");
+		return mav;
+	}
 }
