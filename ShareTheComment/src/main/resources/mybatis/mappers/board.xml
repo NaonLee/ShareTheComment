@@ -17,7 +17,7 @@
 	
 	<select id="selectAllArticles" resultMap="bodResult">
 		<![CDATA[
-			SELECT LEVEL, articleNO, parentNO, title, content, writtenDate, id
+			SELECT LEVEL, articleNO, parentNO, title, content, writtenDate, id, likeCount
 			FROM p_board
 			START WITH  parentNO=0
      		CONNECT BY PRIOR articleNO=parentNO 

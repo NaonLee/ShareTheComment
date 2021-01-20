@@ -19,7 +19,6 @@ public class ArticleVO {
 	public ArticleVO() {}
 
 	public ArticleVO(int articleNO, int parentNO, String title, String content, Date writtenDate, String id, int likeCount) {
-		super();
 		this.articleNO = articleNO;
 		this.parentNO = parentNO;
 		this.title = title;

@@ -1,9 +1,12 @@
 package com.spring.shareComm.board.controller;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +69,18 @@ public class BoardControllerImpl implements BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/likeCount", method = RequestMethod.POST)
+	public void likeCount(@RequestParam Map<String, String> article, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int articleNO = Integer.parseInt(article.get("articleNO"));
+		articleVO = boardService.article(articleNO);
+		System.out.println("Call count and the number is " + articleNO);
+		int likeCount = articleVO.getLikeCount();
+		response.getWriter().write(Integer.toString(likeCount));
+		
+		
+	}
+	
 	@RequestMapping(value="/board/modArticle.do")	//modify article
 	public ModelAndView modArticle(@ModelAttribute("article") ArticleVO article, HttpServletRequest request) throws Exception {
 		System.out.println("call mod-article");
@@ -87,21 +102,29 @@ public class BoardControllerImpl implements BoardController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/board/*Form.do")	//replyForm, articleForm
-	public ModelAndView form(@RequestParam(value="parentNO", required = false) String parentNO, HttpServletRequest request) throws Exception {
-		System.out.println("call Form");
-		System.out.println("form.do parent: " + parentNO);
+	@RequestMapping(value="/board/*Form.do")	//replyForm, articleForm, modForm, modArticleForm
+	public ModelAndView form(@RequestParam(value="articleNO", required=false) String articleNO,
+					@RequestParam(value="parentNO", required = false) String parentNO, HttpServletRequest request) throws Exception {
+		System.out.println("Call Form");
+	
 		ModelAndView mav = new ModelAndView();
 		if(parentNO != null)
 			mav.addObject("parentNO", Integer.parseInt(parentNO));		//pass parent number for replyForm
-		
+		if(articleNO != null) {
+			System.out.println("articleNO: " + articleNO);
+			articleVO = boardService.article(Integer.parseInt(articleNO));
+			mav.addObject("article", articleVO);
+		}
+			
 		HttpSession session = request.getSession();
 		System.out.println("session: " + session.getAttribute("isLogOn"));
 		
 		String viewName = getViewName(request);
+		System.out.println("viewName: " + viewName);
 		mav.setViewName(viewName);
 		return mav;
 	}
+	
 	@RequestMapping(value="/board/replyArticle.do")
 	public ModelAndView reply(@ModelAttribute("reply") ArticleVO article, @RequestParam("parentNO") int parentNO, HttpServletRequest request) throws Exception{
 		System.out.println("parentNO " + parentNO);
