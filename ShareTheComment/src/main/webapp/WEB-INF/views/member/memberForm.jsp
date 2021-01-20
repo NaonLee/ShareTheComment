@@ -12,6 +12,58 @@
 <meta charset="UTF-8">
 
 
+<script type="text/javascript">
+	//When user click 'sign up'
+	
+	function btn_signUp(obj){
+		var pwdConfirm = $("#i_pwdConfirm").val();
+		var pwd = $("#i_pwd").val();
+		var idCheck= $("#idCheck").val();
+		
+		if(pwdConfirm == pwd){
+			$("#confirm").empty();
+			if(idCheck == 'true'){			//if id, password are both ok, proceed sign-up
+				obj.submit();
+			} else {						//if id 
+				alert("ID check must to be done");
+			}
+		}  else{
+			$("#confirm").text("Please confirm the password")	//if password and password aren't in match
+		}
+	}
+	
+	//Check if ID is already in use
+	function btn_check(obj){
+		var id = $("#i_id").val();
+		
+		$.ajax({
+			type: "post",
+			async: false,
+			url: "${contextPath}/member/idCheck",
+			data: {
+				id: id
+			},
+			success: function(data){
+				if(data == 'exist'){	//There is same id in DB
+					$("#checkResult").text("ID is already in use");
+					$("#idCheck").val('false');
+				} else if(data == 'empty'){			//user didn't enter the id
+					$("#checkResult").text("Please enter the ID");
+					$("#idCheck").val('false');
+				}
+				else{
+					$("#checkResult").text("Good to go!");
+					$("#idCheck").val('true');
+				}
+			},
+			error: function(){
+				alert("error");
+			},
+			complete: function(){}	
+		});
+	}
+</script>
+
 <title>MemberForm</title>
 </head>
 <body>
@@ -45,14 +97,17 @@
                       <div class="md-form">
                          <label for="i_id">Your ID</label>
                          <input type="text" id="i_id" name="id" class="form-control">
+                         <input type="button" id="id_check" onclick="btn_check(this.form)" value="Check">
+                         <div id="checkResult"></div>				<!-- Show user the check result -->
+                         <div id="idCheck" hidden="hidden"></div>	<!-- id check value (true or false) -->
                       </div>
                       <div class="md-form">
                         <label for="i_pwd">Your password</label>
                         <input type="password" id="i_pwd" name="pwd" class="form-control">
                       </div>
-                      <div class="md-form">
+                      <div class="md-form mb-3">
                             <label for="i_pwdConfirm">Confirm Your password</label>
-                            <input type="password" id="i_pwdConfirm" class="form-control"> 
+                            <input type="password" id="i_pwdConfirm" class="form-control"> <div id="confirm" style="color:red;"></div>
                       </div>
                       <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="defaultCheck12">
@@ -61,8 +116,8 @@
                             </label>
                         </div>
                       <div class="text-center mt-4">
-                       <button class="btn btn-primary" type="submit">SignUp</button>
-                    	<button class="btn btn-primary" type="button">Cancel</button>
+                       <button class="btn btn-primary" type="button" onclick="btn_signUp(this.form)">SignUp</button>
+                    	<button class="btn btn-primary" type="button" onclick="location.href='${contextPath}/main.do'">Cancel</button>
                     </div>
                    </form> 
                   </div>

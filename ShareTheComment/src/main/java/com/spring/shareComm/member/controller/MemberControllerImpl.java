@@ -1,22 +1,22 @@
 package com.spring.shareComm.member.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shareComm.member.service.MemberService;
 import com.spring.shareComm.member.vo.MemberVO;
@@ -53,7 +53,28 @@ public class MemberControllerImpl implements MemberController{
 		System.out.println("viewName: " +viewName);
 		return mav;
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value="/member/idCheck", method=RequestMethod.POST)
+	public void checkUser(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PrintWriter pt = response.getWriter();
+		System.out.println("id: " + id);
+		
+		if(id == null || id == "") {				//if user isn't enter an id
+			pt.write("empty");
+		} else {			
+			
+			memberVO = memberService.select(id);
+			
+			if(memberVO != null){	//there is member with the ID
+				pt.write("exist");
+			} else {
+				pt.write("none");
+			}
+		}
+			
+	}
+	
 	//insert a new member
 	@Override
 	@RequestMapping(value="/member/addMember.do", method=RequestMethod.POST)
