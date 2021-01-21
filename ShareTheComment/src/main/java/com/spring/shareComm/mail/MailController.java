@@ -44,8 +44,9 @@ public class MailController {
 		mailService.sendPwd(email, pwd);				//send to administrator email
 		
 		ModelAndView mav = new ModelAndView();	
+		mav.addObject("fail", "succeed");
 		mav.setViewName("redirect:/member/findPWForm.do");
-		mav.addObject("fail", "suceed");
+		
 		return mav;
 	}
 }

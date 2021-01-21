@@ -11,26 +11,22 @@
 <head>
 <meta charset="UTF-8">
 
-
-<c:choose>
+<c:choose>	
 	<c:when test="${fail=='failed'}">	<!-- There is no member registered with id and name entered -->
-	<script type="text/javascript">
-		window.onload=function(){
-			alert("ID or Name is not correct. Please retry.");
-		}
-	</script>
-	</c:when>
-	<c:when test="${fail=='suceed;}">	<!-- successfully sent email -->
 		<script type="text/javascript">
-			window.onload=function(){
-				alert("Email has been sent");
-			}
+			window.onload = fail;
+		</script>
+	</c:when>
+	<c:when test="${fail=='succeed'}">	<!-- successfully sent email -->
+		<script>
+			window.onload=success;
 		</script>
 	</c:when>
 </c:choose>
-	
+
 
 <script type="text/javascript">
+
 	function cancel_btn(obj){
 		obj.action = "${contextPath}/member/loginForm.do";
 		obj.submit();

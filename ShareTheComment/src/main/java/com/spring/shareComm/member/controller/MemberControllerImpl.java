@@ -75,7 +75,6 @@ public class MemberControllerImpl implements MemberController{
 		ModelAndView mav = new ModelAndView();
 		
 		memberVO = memberService.select(member);
-		System.out.println("membeVO id: " + memberVO.getId() + " name : " + memberVO.getName());
 		
 		if(memberVO != null) {
 			System.out.println("Yeah!");
