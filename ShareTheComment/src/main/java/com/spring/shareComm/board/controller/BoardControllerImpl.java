@@ -27,6 +27,18 @@ public class BoardControllerImpl implements BoardController {
 	@Autowired
 	ArticleVO articleVO;
 	
+	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("main");
+		return mav;
+	}
+	
+	@RequestMapping(value= {"/popUp.do"}, method=RequestMethod.GET)
+	public ModelAndView popUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("popUp");
+		return mav;
+	}
+	
 	@Override
 	@RequestMapping(value="/board/listArticles.do")		//list all article
 	public ModelAndView allArticles(HttpServletRequest request) throws Exception {
@@ -77,8 +89,7 @@ public class BoardControllerImpl implements BoardController {
 		System.out.println("Call count and the number is " + articleNO);
 		int likeCount = articleVO.getLikeCount();
 		response.getWriter().write(Integer.toString(likeCount));
-		
-		
+
 	}
 	
 	@RequestMapping(value="/board/modArticle.do")	//modify article

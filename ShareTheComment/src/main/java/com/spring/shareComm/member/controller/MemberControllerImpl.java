@@ -28,14 +28,7 @@ public class MemberControllerImpl implements MemberController{
 	MemberService memberService;
 	@Autowired
 	MemberVO memberVO;
-	
-	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("main");
-		
-		return mav;
-	}
-	
+
 	//list all members
 	@Override	
 	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
