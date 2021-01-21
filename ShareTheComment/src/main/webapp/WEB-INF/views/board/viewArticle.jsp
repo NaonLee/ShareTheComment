@@ -11,6 +11,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<style type="text/css">
+	#img-btn {
+		background: url("${contextPath}/resources/images/like_2.jpg") no-repeat;
+		border: none;
+		cursor: pointer;
+		width:70px;
+		height:32px;
+	}
+</style>
+
 <script type="text/javascript">
 	function back(obj){
 		obj.action="${contextPath}/board/listArticles.do";
@@ -65,12 +76,51 @@
 		document.body.appendChild(form);
 		form.submit();
 	}
+	
+	//Like button
+	function fn_like(){
+		var articleNO = ${article.articleNO};
+		
+		$.ajax({
+			type: "post",
+			async: false,
+			url: "${contextPath}/like",
+			data: {
+				articleNO: articleNO,
+			},
+			success: function(data){
+				alert(data);
+			},
+			error: function(){
+				alert("error");
+			},
+			complete: function(){}	
+		});
+		fn_likeCount();
+	}
+	window.onload= fn_likeCount();
+	function fn_likeCount(){
+		$.ajax({
+			type: "post",
+			async: false,
+			url: "${contextPath}/likeCount",
+			dataType: "text",
+			data: {
+				articleNO: ${article.articleNO}
+			},
+			success: function(data){
+				$(likeCount).text(data);
+			}
+		});
+	}
 </script>
+
+
 
 <title>View article</title>
 </head>
 <body>
-	<div class="contentForm" align="center">
+	<div class="contentForm" align="center" style="width: 85%;">
    		<div class="row">
        	 	<div class="col-md-10">
 	       	 	<h2>Article</h2>
@@ -81,7 +131,8 @@
 					<div style="float:left; margin-top:6px;">
 						<span>Written Date: <fmt:formatDate pattern="yy-MM-dd HH:mm" value="${article.writtenDate}"/></span>
 					</div>
-					<div style="float:right;"><button type="button" class="btn btn-dark btn-sm" onClick="back(this.form)">Back to list</button></div>
+					<div style="float:right; padding-left: 10px;"><input type="button" id="img-btn" onClick="fn_like()"></div>
+					<div style="float:right;"><button type="button" class="btn btn-dark btn-sm" onClick="location.href='${contextPath}/board/listArticles.do'">Back to list</button></div>
 				</div>
 
 			<table class="table"> 
@@ -89,17 +140,18 @@
 				<thead> 
 					<tr> 
 						<td colspan="2" style="padding: 8px;">
-						<div style="color:#505050; font-size:18px; font-weight:bold; word-break:break-all;">${article.title}</div></td> 
+							<div style="color:#505050; font-size:18px; font-weight:bold; word-break:break-all;">${article.title}</div>
+						</td> 
 					</tr> 
 					<tr> 
-						<td>Writer: <span style="font-weight:bold;">${article.id}</span></td>
-						<td align="right">Like: <span style="font-weight:bold;">${article.likeCount}</span></td>
+						<td>Writer: <span style="font-weight:bold; padding-left: 3px">${article.id}</span></td>
+						<td style="float: right;">Like: <span style="font-weight:bold;" id="likeCount">${article.likeCount}</span></td>
 					</tr> 
 					
 				</thead> 
 				<tbody> 
 					<tr> 
-						<td colspan="2" height="400" style="word-break:break-all; padding: 4%;"> 
+						<td colspan="2" height="400" style="word-break:break-all; padding: 3%;"> 
 						${article.content}
 						</td> 
 					</tr> 

@@ -35,7 +35,7 @@
 </style>
 
 
-<title><tiles:insertAttribute name="title"/>
+<title><tiles:insertAttribute name="title"/></title>
 </head>
 <body>
 	<div>

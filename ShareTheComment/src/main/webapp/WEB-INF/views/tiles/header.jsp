@@ -30,7 +30,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="${contextPath}/main.do">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="${contextPath}/board/listArticles.do">Board</a>
             </li>
             <c:choose>
@@ -48,11 +48,11 @@
 		            </li>
 				</c:when>
 				<c:otherwise>
-					<a class="nav-link" href="${contextPath}/member/loginForm.do">Sign in</a>
+					<a class="nav-link active" href="${contextPath}/member/loginForm.do">Sign in</a>
 				</c:otherwise>
 			</c:choose>
               <li class="nav-item">
-              <a class="nav-link" href="${contextPath}/board/mailForm.do">Contact US</a>
+              <a class="nav-link active" href="${contextPath}/board/mailForm.do">Contact US</a>
             </li>
           </ul>
         </div>

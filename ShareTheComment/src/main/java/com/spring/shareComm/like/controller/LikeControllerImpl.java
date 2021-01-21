@@ -41,11 +41,11 @@ public class LikeControllerImpl implements LikeController {
 		//if user already liked the article
 		if(count == 0) {							//SELECT COUNT(*) FROM table WHERE id=id and articleNO=articleNO
 			likeService.addLike(likeVO);
-			pt.write("Liked!");
+			pt.write("Liked");
 			
 		} else {									//if user hasn't liked the article
 			likeService.removeLike(likeVO);
-			pt.write("Disliked!");
+			pt.write("Disliked");
 		}
 
 	}
