@@ -82,10 +82,10 @@ body {
       <h3>Please Log In, or <a href="${contextPath}/member/memberForm.do">Sign Up</a></h3>
       <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="${url}" class="btn btn-lg btn-success btn-block">Naver</a>
+          <a href="${NaverUrl}" class="btn btn-lg btn-success btn-block">Naver</a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+          <a href="${GoogleUrl}" class="btn btn-lg btn-info btn-block">Google</a>
         </div>
       </div>
       <div class="login-or">

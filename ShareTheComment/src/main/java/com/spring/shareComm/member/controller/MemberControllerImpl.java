@@ -11,6 +11,16 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.google.api.impl.GoogleTemplate;
+import org.springframework.social.google.api.plus.Person;
+import org.springframework.social.google.api.plus.PlusOperations;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.AccessGrant;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Verb;
 import com.spring.shareComm.member.service.MemberService;
 import com.spring.shareComm.member.vo.MemberVO;
 import com.spring.shareComm.socialLogin.NaverLoginBO;
@@ -32,13 +43,18 @@ public class MemberControllerImpl implements MemberController{
 	@Autowired
 	MemberVO memberVO;
 	//NaverLoginBO for Naver login
-		private NaverLoginBO naverLoginBO;
-		private String apiResult = null;
-		
-		@Autowired
-		private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 			this.naverLoginBO = naverLoginBO;
-		}
+	}
+	
+	//Google login
+	@Autowired
+	private GoogleConnectionFactory googleConnectionFactory;
+	@Autowired
+	private OAuth2Parameters googleOAuth2Parameters;
 		
 	
 	//list all members
@@ -90,7 +106,6 @@ public class MemberControllerImpl implements MemberController{
 		memberVO = memberService.select(member);
 		
 		if(memberVO != null) {
-			System.out.println("Yeah!");
 			String email = memberVO.getEmail();
 			String pwd = memberVO.getPwd();
 			mav.addObject("email", email);
@@ -164,9 +179,35 @@ public class MemberControllerImpl implements MemberController{
 		return mav;
 	}
 	
-	//login with social account(Google, Naver)
-	@RequestMapping(value="/member/socialLogin.do", method= {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView socialLogin(@RequestParam(required = false) String code, @RequestParam(required = false)  
+	@RequestMapping(value="/member/googleLogin.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView googleLogin(@RequestParam(required = false) String code, HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView("main");
+		System.out.println("googleLog");
+		
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		AccessGrant accessGrant = oauthOperations.exchangeForAccess(code , googleOAuth2Parameters.getRedirectUri(), null);
+		
+		String accessToken = accessGrant.getAccessToken();
+		System.out.println("accessT: " +accessToken);
+		Long expireTime = accessGrant.getExpireTime();
+		if (expireTime != null && expireTime < System.currentTimeMillis()) {
+			accessToken = accessGrant.getRefreshToken();
+			System.out.printf("accessToken is expired. refresh token = {}", accessToken);
+		}
+		Connection<Google> connection = googleConnectionFactory.createConnection(accessGrant);
+		Google google = connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
+		
+		PlusOperations plusOperations = google.plusOperations();
+		Person person = plusOperations.getGoogleProfile();
+        
+        System.out.println("id: "+person.getDisplayName());
+        
+		return mav;
+	}
+	
+	//login with Naver account(Naver)
+	@RequestMapping(value="/member/naverLogin.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView naverLogin(@RequestParam(required = false) String code, @RequestParam(required = false)  
 									String state, HttpSession session)  throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		OAuth2AccessToken oauthToken;
@@ -199,22 +240,18 @@ public class MemberControllerImpl implements MemberController{
 			String email = (String) response_obj.get("email");
 			String password = Double.toString((Math.random())*10000);		//Creat random number for password
 			//<5> Check if user has already been registered
-
+			System.out.println("id-" +id);
 			if(memberService.select(id) != null) {
-				session.setAttribute("isLogOn", true);		//status of login
-				session.setAttribute("logMember", id);		//information of user logging in
+				memberVO = memberService.select(id);
 			} else {										//user hasn't been registered
 				memberVO.setId(id);
 				memberVO.setName(name);
 				memberVO.setEmail(email);
 				memberVO.setPwd(password);
 				memberService.addMember(memberVO);
-				
-				System.out.println("Add..Naver member.." + memberVO.getId());
-				session.setAttribute("isLogOn", true);		//status of login
-				session.setAttribute("logMember", memberVO);		//information of user logging in
 			}
-			
+			session.setAttribute("isLogOn", true);		//status of login
+			session.setAttribute("logMember", memberVO);		//information of user logging in
 			mav.addObject("result", apiResult);
 		}
 		return mav;
@@ -247,9 +284,13 @@ public class MemberControllerImpl implements MemberController{
 		//create authentication URL for Naver
 		String naverAuthUrl = naverLoginBO.getAuthenticationUrl(session);
 		//Bind Naver URL
-		mav.addObject("url", naverAuthUrl);
-				
+		mav.addObject("NaverUrl", naverAuthUrl);
 		
+		//create URL for Google
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String GoogleAuthurl = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		mav.addObject("GoogleUrl", GoogleAuthurl);
+
 		mav.addObject("result", result);
 		mav.setViewName(viewName);	
 		System.out.println("viewName: " +viewName);

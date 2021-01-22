@@ -52,7 +52,7 @@
 	<!-- Authorized JS origins and redirect URIs -->
 	<beans:bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
 		<beans:property name="scope" value="https://www.googleapis.com/auth/plus.login"/>
-		<beans:property name="redirectUri" value="http://localhost:8090/shareComm/main.do"/>
+		<beans:property name="redirectUri" value="http://localhost:8090/shareComm/member/googleLogin.do"/>
 	</beans:bean>
 	
 	<!-- NaverLoginBO Bean -->
