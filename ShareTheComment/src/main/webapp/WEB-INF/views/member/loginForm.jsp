@@ -54,8 +54,6 @@ body {
   }
 </style>
 
-<title>Login form</title>
-
 <!-- Login failed -->
 <c:choose>
 	<c:when test="${result=='loginFailed'}">
@@ -68,8 +66,9 @@ body {
 </c:choose>
 
 <script type="text/javascript">
-	function signUp_btn(obj){
-		obj.action = "${contextPath}/member/memberForm.do";
+	function cancel_btn(obj){
+		obj.action = "${contextPath}/main.do";
+		obj.method="get";
 		obj.submit();
 	}
 </script>
@@ -80,10 +79,10 @@ body {
 
     <div class="main">
 
-      <h3>Please Log In, or <a href="#">Sign Up</a></h3>
+      <h3>Please Log In, or <a href="${contextPath}/member/memberForm.do">Sign Up</a></h3>
       <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-success btn-block">Naver</a>
+          <a href="${url}" class="btn btn-lg btn-success btn-block">Naver</a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6">
           <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
@@ -100,8 +99,10 @@ body {
           <input type="text" name="id" class="form-control" id="inputUsernameEmail">
         </div>
         <div class="form-group">
-          <a class="pull-right" href="#">Forgot password?</a>
+
+         
           <label for="inputPassword">Password</label>
+          <a class="pull-right" style="padding-left: 10px;" href="${contextPath}/member/findPWForm.do">Forgot password?</a>
           <input type="password" name="pwd" class="form-control" id="inputPassword">
         </div>
         <div class="checkbox pull-right">
@@ -112,8 +113,8 @@ body {
         <button type="submit" class="btn btn btn-primary">
           Log In
         </button>
-         <button type="button" value="Sign up" class="btn btn btn-dark" onclick="signUp_btn(this.form)">
-        	 Sign up
+         <button type="button" class="btn btn btn-dark" onclick="cancel_btn(this.form)">
+        	 Cancel
         </button>
       </form>
 

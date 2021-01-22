@@ -30,5 +30,10 @@
 		<put-attribute name="title" value="Contact us"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/board/mailForm.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="naver" extends="basicLayout">
+		<put-attribute name="title" value="Contact us"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/naver"></put-attribute>
+	</definition>
 </tiles-definitions>
 

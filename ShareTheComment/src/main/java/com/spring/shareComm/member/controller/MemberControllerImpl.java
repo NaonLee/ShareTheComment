@@ -1,15 +1,15 @@
 package com.spring.shareComm.member.controller;
 
-import java.io.IOException;
+
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.spring.shareComm.member.service.MemberService;
 import com.spring.shareComm.member.vo.MemberVO;
+import com.spring.shareComm.socialLogin.NaverLoginBO;
 
 @Controller("memberController")
 public class MemberControllerImpl implements MemberController{
@@ -28,7 +31,16 @@ public class MemberControllerImpl implements MemberController{
 	MemberService memberService;
 	@Autowired
 	MemberVO memberVO;
-
+	//NaverLoginBO for Naver login
+		private NaverLoginBO naverLoginBO;
+		private String apiResult = null;
+		
+		@Autowired
+		private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+			this.naverLoginBO = naverLoginBO;
+		}
+		
+	
 	//list all members
 	@Override	
 	@RequestMapping(value="/member/listMembers.do", method=RequestMethod.GET)
@@ -49,8 +61,9 @@ public class MemberControllerImpl implements MemberController{
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/member/idCheck", method=RequestMethod.POST)
+	@RequestMapping(value="/member/idCheck", method= {RequestMethod.POST, RequestMethod.GET})
 	public void checkUser(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("id Check");
 		PrintWriter pt = response.getWriter();
 		System.out.println("id: " + id);
 		
@@ -151,6 +164,61 @@ public class MemberControllerImpl implements MemberController{
 		return mav;
 	}
 	
+	//login with social account(Google, Naver)
+	@RequestMapping(value="/member/socialLogin.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView socialLogin(@RequestParam(required = false) String code, @RequestParam(required = false)  
+									String state, HttpSession session)  throws Exception {
+		ModelAndView mav = new ModelAndView("main");
+		OAuth2AccessToken oauthToken;
+		
+		//if user is login with Naver
+		if(code != null && state != "") {
+			oauthToken = naverLoginBO.getAccessToken(session, code, state);
+			
+			//<1> Bring user information
+			apiResult = naverLoginBO.getUserProfile(oauthToken);		//JSON data with String structure
+			
+			/*The structure of apiResult
+			 *{"resultcode":00,
+			 *"message":"success",
+			 *"response":{"id":"id","nickname":"nickname","age":"20","gender":"M", "email":"email@email","name":"name"}} 
+			 */
+			
+			//<2> Convert apiResult String to JSON
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(apiResult);
+			JSONObject jsonObj = (JSONObject) obj;
+			
+			//<3> Data parsing
+			//response parsing
+			JSONObject response_obj = (JSONObject) jsonObj.get("response");	//"response":{"id":"id","nickname":"nickname","age":"20","gender":"M", "email":"email@email","name":"name"}}
+			
+			//<4> Save data for sign up
+			String id = "N" + (String) response_obj.get("id");
+			String name = (String) response_obj.get("name");
+			String email = (String) response_obj.get("email");
+			String password = Double.toString((Math.random())*10000);		//Creat random number for password
+			//<5> Check if user has already been registered
+
+			if(memberService.select(id) != null) {
+				session.setAttribute("isLogOn", true);		//status of login
+				session.setAttribute("logMember", id);		//information of user logging in
+			} else {										//user hasn't been registered
+				memberVO.setId(id);
+				memberVO.setName(name);
+				memberVO.setEmail(email);
+				memberVO.setPwd(password);
+				memberService.addMember(memberVO);
+				
+				System.out.println("Add..Naver member.." + memberVO.getId());
+				session.setAttribute("isLogOn", true);		//status of login
+				session.setAttribute("logMember", memberVO);		//information of user logging in
+			}
+			
+			mav.addObject("result", apiResult);
+		}
+		return mav;
+	}
 	@RequestMapping(value="/member/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -164,7 +232,8 @@ public class MemberControllerImpl implements MemberController{
 	
 	//call forms(memberForm, modForm, etc)
 	@RequestMapping(value="/member/*Form.do")
-	public ModelAndView modForm(@RequestParam(value="result", required = false) String result, @RequestParam(value="id", required = false) String id, HttpServletRequest request) throws Exception {	
+	public ModelAndView modForm(@RequestParam(value="result", required = false) String result, @RequestParam(value="id", required = false) String id, 
+			HttpServletRequest request, HttpSession session) throws Exception {	
 		//if there is an id, put data and there is no id, put null into 'id'
 		ModelAndView mav = new ModelAndView();
 		String viewName =  getViewName(request);
@@ -174,6 +243,13 @@ public class MemberControllerImpl implements MemberController{
 			memberVO = memberService.select(id);
 			mav.addObject("member", memberVO);
 		}
+		
+		//create authentication URL for Naver
+		String naverAuthUrl = naverLoginBO.getAuthenticationUrl(session);
+		//Bind Naver URL
+		mav.addObject("url", naverAuthUrl);
+				
+		
 		mav.addObject("result", result);
 		mav.setViewName(viewName);	
 		System.out.println("viewName: " +viewName);

@@ -1,24 +1,26 @@
 package com.spring.shareComm.board.controller;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MailSessionDefinition;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.spring.shareComm.board.service.BoardService;
 import com.spring.shareComm.board.vo.ArticleVO;
+import com.spring.shareComm.socialLogin.NaverLoginBO;
 
 @Controller("boardController")
 public class BoardControllerImpl implements BoardController {
@@ -27,9 +29,12 @@ public class BoardControllerImpl implements BoardController {
 	@Autowired
 	ArticleVO articleVO;
 	
+	
+	
 	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
+
 		return mav;
 	}
 	
@@ -112,22 +117,22 @@ public class BoardControllerImpl implements BoardController {
 		mav.setViewName("redirect:/board/listArticles.do");
 		return mav;
 	}
-	
-	@RequestMapping(value="/board/*Form.do")	//replyForm, articleForm, modForm, modArticleForm
+
+	@RequestMapping(value={"/board/*Form.do"})	//replyForm, articleForm, modForm, modArticleForm
 	public ModelAndView form(@RequestParam(value="articleNO", required=false) String articleNO,
-					@RequestParam(value="parentNO", required = false) String parentNO, HttpServletRequest request) throws Exception {
+					@RequestParam(value="parentNO", required = false) String parentNO, HttpServletRequest request, HttpSession session) throws Exception {
 		System.out.println("Call Form");
-	
+
 		ModelAndView mav = new ModelAndView();
-		if(parentNO != null)
-			mav.addObject("parentNO", Integer.parseInt(parentNO));		//pass parent number for replyForm
+		if(parentNO != null)	//for reply, pass parent number for replyForm
+			mav.addObject("parentNO", Integer.parseInt(parentNO));
 		if(articleNO != null) {
 			System.out.println("articleNO: " + articleNO);
 			articleVO = boardService.article(Integer.parseInt(articleNO));
 			mav.addObject("article", articleVO);
 		}
-			
-		HttpSession session = request.getSession();
+					
+		session = request.getSession();
 		System.out.println("session: " + session.getAttribute("isLogOn"));
 		
 		String viewName = getViewName(request);

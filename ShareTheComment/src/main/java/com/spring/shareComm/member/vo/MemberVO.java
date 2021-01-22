@@ -16,7 +16,6 @@ public class MemberVO {
 	public MemberVO() {}
 	
 	public MemberVO(String id, String pwd, String name, String email, Date joinDate) {
-		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
