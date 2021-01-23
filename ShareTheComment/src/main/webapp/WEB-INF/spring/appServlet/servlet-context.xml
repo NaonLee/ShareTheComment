@@ -46,8 +46,8 @@
 	<!-- Google Login API -->
 	<!-- Client ID and secret -->
 	<beans:bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
-		<beans:constructor-arg value="418373681675-gd52lf8svmn5ae13gqmdl1ggbjjr5jdd.apps.googleusercontent.com"/>
-		<beans:constructor-arg value="baYID6G6UsVD0mtVdSWKTLSy"/>
+		<beans:constructor-arg value="###########"/>
+		<beans:constructor-arg value="##########"/>
 	</beans:bean>
 	<!-- Authorized JS origins and redirect URIs -->
 	<beans:bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">

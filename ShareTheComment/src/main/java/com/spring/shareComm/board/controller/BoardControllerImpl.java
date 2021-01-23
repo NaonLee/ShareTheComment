@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.shareComm.board.service.BoardService;
 import com.spring.shareComm.board.vo.ArticleVO;
+import com.spring.shareComm.comments.service.CommentService;
+import com.spring.shareComm.comments.vo.CommentVO;
 
 @Controller("boardController")
 public class BoardControllerImpl implements BoardController {
@@ -24,8 +26,8 @@ public class BoardControllerImpl implements BoardController {
 	BoardService boardService;
 	@Autowired
 	ArticleVO articleVO;
-	
-	
+	@Autowired
+	CommentService commentService;
 	
 	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -78,9 +80,15 @@ public class BoardControllerImpl implements BoardController {
 		String viewName = getViewName(request);
 		
 		mav.addObject("article", articleVO);		//pass article information to viewArticle.jsp
+
+		List<CommentVO> commetns = commentService.allComments(articleNO);
+		
+		mav.addObject("comments", commetns);
 		mav.setViewName(viewName);
 		return mav;
 	}
+	
+	
 	
 	@RequestMapping(value="/likeCount", method = RequestMethod.POST)
 	public void likeCount(@RequestParam Map<String, String> article, HttpServletRequest request, HttpServletResponse response) throws Exception {
