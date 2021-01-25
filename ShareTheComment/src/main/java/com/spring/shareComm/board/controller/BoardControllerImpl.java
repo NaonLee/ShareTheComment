@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.shareComm.board.service.BoardService;
 import com.spring.shareComm.board.vo.ArticleVO;
-import com.spring.shareComm.comments.service.CommentService;
-import com.spring.shareComm.comments.vo.CommentVO;
+import com.spring.shareComm.common.paging.Criteria;
+import com.spring.shareComm.common.paging.PageMaker;
 
 @Controller("boardController")
 public class BoardControllerImpl implements BoardController {
@@ -26,8 +26,7 @@ public class BoardControllerImpl implements BoardController {
 	BoardService boardService;
 	@Autowired
 	ArticleVO articleVO;
-	@Autowired
-	CommentService commentService;
+	
 	
 	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,9 +43,14 @@ public class BoardControllerImpl implements BoardController {
 	
 	@Override
 	@RequestMapping(value="/board/listArticles.do")		//list all article
-	public ModelAndView allArticles(HttpServletRequest request) throws Exception {
+	public ModelAndView allArticles(HttpServletRequest request, Criteria criteria) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		List articles = boardService.allArticles();
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(boardService.count());				//number of articles
+
+		List articles = boardService.allArticles(criteria);
 		
 		/* to check level
 		 * Iterator<ArticleVO> a = articles.iterator();
@@ -54,9 +58,9 @@ public class BoardControllerImpl implements BoardController {
 		 * while(a.hasNext()) { int n = a.next().getLevel();
 		 * System.out.println("level: " + n); }
 		 */
-		
 		String viewName = getViewName(request);
 		mav.addObject("articles", articles);			//pass all article information list
+		mav.addObject("pageMaker", pageMaker);
 		mav.setViewName(viewName);
 		return mav;
 	}
@@ -81,9 +85,8 @@ public class BoardControllerImpl implements BoardController {
 		
 		mav.addObject("article", articleVO);		//pass article information to viewArticle.jsp
 
-		List<CommentVO> commetns = commentService.allComments(articleNO);
 		
-		mav.addObject("comments", commetns);
+		
 		mav.setViewName(viewName);
 		return mav;
 	}

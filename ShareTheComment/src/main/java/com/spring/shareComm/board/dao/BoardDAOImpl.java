@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.spring.shareComm.board.vo.ArticleVO;
+import com.spring.shareComm.common.paging.Criteria;
 
 @Component("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
@@ -16,11 +17,16 @@ public class BoardDAOImpl implements BoardDAO {
 	SqlSession sqlSession;
 	
 	@Override	//to show all articles
-	public List selectAllArticles() throws DataAccessException {
-		List<ArticleVO> boardList = sqlSession.selectList("mapper.board.selectAllArticles");	
+	public List selectAllArticles(Criteria criteria) throws DataAccessException {
+		//pass page information by criteria
+		List<ArticleVO> boardList = sqlSession.selectList("mapper.board.selectAllArticles", criteria);	
 		return boardList;
 	}
 
+	public int countArticle() throws DataAccessException{
+		return sqlSession.selectOne("mapper.board.countArticle");
+	}
+	
 	@Override	//add a new article
 	public void insertArticle(ArticleVO articleVO) throws DataAccessException {
 		int articleNO = sqlSession.selectOne("mapper.board.createArticleNO");		//create article number(maximum articeNO in DB + 1)

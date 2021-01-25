@@ -12,24 +12,46 @@
 		<result property="writtenDate" column="writtenDate"/>
 		<result property="id" column="id"/>
 		<result property="likeCount" column="likeCount"/>
-		<result property="level" column="level"/>
+		<result property="level" column="lvl"/>
 	</resultMap>
 	
+
 	<select id="selectAllArticles" resultMap="bodResult">
 		<![CDATA[
-			SELECT LEVEL, articleNO, parentNO, title, content, writtenDate, id, likeCount
-			FROM p_board
-			START WITH  parentNO=0
-     		CONNECT BY PRIOR articleNO=parentNO 
-      		ORDER SIBLINGS BY articleNO DESC
+			SELECT * FROM (
+			    SELECT ROWNUM AS recNum,LVL,articleNO, parentNO, title, content, id, writtenDate, likeCount
+			    FROM (
+			        SELECT LEVEL AS LVL, articleNO, parentNO, title, content, id, writtenDate, likeCount
+			        FROM p_board
+			        START WITH parentNO=0
+			        CONNECT BY PRIOR articleNO=parentNO
+			        ORDER SIBLINGS BY articleNO DESC
+			    )
+		    )
+			WHERE recNum between 1+10*(#{page}-1) and #{perPageNum}*#{page}
 		]]>
 	</select>
-	
+		
+
 	<select id="selectArticle" resultType="articleVO" parameterType="int">
 		<![CDATA[
 			SELECT * 
 			FROM p_board 
 			WHERE articleNO=#{articleNO}
+		]]>
+	</select>
+	
+	<select id="countArticle" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM p_board
+		]]>
+	</select>
+	
+	<select id="createArticleNO" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(ArticleNO), 0)+1 
+			FROM p_board
 		]]>
 	</select>
 	
@@ -48,13 +70,6 @@
 			VALUES (#{articleNO}, #{parentNO}, #{title}, #{content}, #{id})			
 		]]>
 	</insert>
-	
-	<select id="createArticleNO" resultType="int">
-		<![CDATA[
-			SELECT NVL(MAX(ArticleNO), 0)+1 
-			FROM p_board
-		]]>
-	</select>
 	
 	<update id="updateArticle" parameterType="articleVO">
 		<![CDATA[

@@ -10,6 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 
 #header {
@@ -17,16 +18,20 @@
 	margin-bottom: 5px;
 }
 #sidebar {
-	width: "15%";
+	width: 15%;
+	height: 500px;
 	padding: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
 	float: left;
-	padding-top: 5px;
 }
 
 #content {
-	width: "75%";
+	width: 75%;
 	padding: 5px;
 	margin-right: 5px;
+	margin-left: 5%;
+	float:left;
 }
 #footer {
         clear: both;
@@ -38,7 +43,7 @@
 <title><tiles:insertAttribute name="title"/></title>
 </head>
 <body>
-	<div>
+	<div id="wrapper">
 		<div id="header"><tiles:insertAttribute name="header"/></div>
 		<div id="sidebar"><tiles:insertAttribute name="side"/></div>
 		<div id="content"><tiles:insertAttribute name="body"/></div>

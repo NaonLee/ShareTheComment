@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.shareComm.board.dao.BoardDAO;
 import com.spring.shareComm.board.vo.ArticleVO;
+import com.spring.shareComm.common.paging.Criteria;
 
 @Service("boardService")
 @Transactional
@@ -16,10 +17,14 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDAO boardDAO;
 	@Override
-	public List allArticles() throws DataAccessException {
-		List articlesList = boardDAO.selectAllArticles();
+	public List allArticles(Criteria criteria) throws DataAccessException {
+		List articlesList = boardDAO.selectAllArticles(criteria);
 		return articlesList;
 	}
+	public int count() throws DataAccessException{
+		return boardDAO.countArticle();
+	}
+	
 	@Override
 	public void addArticle(ArticleVO boardVO) throws DataAccessException {
 		boardDAO.insertArticle(boardVO);
