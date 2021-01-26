@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.comment">
+
+	<resultMap type="commentVO" id="comResult">
+		<result property="commentNO" column="commentNO"/>
+		<result property="comment_content" column="comment_content"/>
+		<result property="id" column="id"/>
+		<result property="articleNO" column="articleNO"/>
+		<result property="comment_date" column="comment_date"/>
+	</resultMap>
+	
+		
+	<select id="selectAllComments" resultMap="comResult" parameterType="int">
+		<![CDATA[
+			SELECT * FROM p_comment
+			WHERE articleNO=#{articleNO} ORDER BY comment_date DESC
+		]]>
+	</select>
+	
+	<select id="createCommentNO" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(commentNO), 0)+1 
+			FROM p_comment
+		]]>
+	</select>
+	
+	<insert id="insertComment" parameterType="commentVO">
+		<![CDATA[
+			INSERT INTO p_comment (commentNO, comment_content, id, articleNO)
+			VALUES (#{commentNO}, #{comment_content}, #{id}, #{articleNO})
+		]]>
+	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		<![CDATA[
+			DELETE FROM p_comment
+			WHERE commentNO = #{commentNO}
+		]]>
+	</delete>
+	
+	<update id="updateComment" parameterType="commentVO">
+		<![CDATA[
+			UPDATE p_comment
+			SET comment_content=#{comment_content}, comment_date=sysdate
+			WHERE commentNO=#{commentNO}
+		]]>
+	</update>
+	
+</mapper>

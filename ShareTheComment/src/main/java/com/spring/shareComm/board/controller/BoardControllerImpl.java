@@ -26,7 +26,7 @@ public class BoardControllerImpl implements BoardController {
 	BoardService boardService;
 	@Autowired
 	ArticleVO articleVO;
-	
+
 	
 	@RequestMapping(value= {"/","/main.do"}, method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {

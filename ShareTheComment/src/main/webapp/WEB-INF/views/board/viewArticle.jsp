@@ -11,6 +11,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-3.4.1.js"></script>
+
 
 <style type="text/css">
 	#img-btn {
@@ -22,7 +24,10 @@
 	}
 </style>
 
+
 <script type="text/javascript">
+
+/* functions for view article */
 	function back(obj){
 		obj.action="${contextPath}/board/listArticles.do";
 		obj.submit();
@@ -113,9 +118,8 @@
 			}
 		});
 	}
+
 </script>
-
-
 
 <title>View article</title>
 </head>
@@ -188,8 +192,185 @@
        		 </div>
   		</div>
 	</div>
-
 	
+	<!-- Comment -->
 
+	<br><br>
+	
+	
+	
+	<div class="col-lg-9 box-body repliesDiv"> 
+		<div class="card" style="width: 80%;"> 
+			<div class="card-header with-border"> 
+				<h3 class="card-title">Comments</h3> 
+			</div> 
+			<div class="card-body"> 
+				<div class="row"> 
+					<c:choose>
+						<c:when test="${logMember.id == null || logMember.id == ''}">
+							<div class="col-sm-12" align="center"><p style="font: bold;">Please login to leave comment</p></div>
+						</c:when>
+						<c:otherwise>
+							<div class="form-group col-sm-10"> 
+								<input class="form-control input-sm" id="newComment" type="text" placeholder="Type comment"> 
+							</div>	 
+							<div class="form-group col-sm-2" hidden="hidden"> 
+								<input class="form-control input-sm" id="commentWriter" type="text" value="${logMember.id}" > 
+							</div> 
+							<div class="form-group col-sm-2"> 
+								<button type="button" class="btn btn-primary btn-sm btn-block btn_addComment" > 
+									<i class="fa fa-save"></i> Save 
+								</button> 
+							</div> 
+						</c:otherwise>
+					</c:choose>
+			</div> 
+		</div> 
+		<div class="card-footer co">
+			<ul id="comments"> 
+				
+			</ul>
+		</div> 
+	</div> 
+	</div> 
+	
 </body>
+
+
+<script>
+	/* functions for comments */	
+	var articleNO = ${article.articleNO}; 
+
+	getReplies(); 
+	
+	//get comments by articleNO
+	function getReplies() {
+	$.getJSON("${contextPath}/comments/all/" + articleNO, function (data) { 
+		var str = "";
+		$(data).each(function () { 
+			str += "<li class='commentList' reply_no='"+this.commentNO+"'>" 
+			+ "<p id='m_id' class='id'>" + this.id+"</p>"
+			+ "<p id='m_content' class='comment_content'>"+ this.comment_content + "</p>"
+			+"<div id='test'>"
+			+ "<textarea class='form-control input-sm' rows='2' cols='160%' style='display: none;' id='ch_content'>" + this.comment_content+ "</textarea>"
+			+"</div>"
+			
+			/* button */
+			+"<div align='right'>"
+			
+			+ "<button type='button' class='btn btn-sm btn-success' id='btn_mod' >Modify</button> "
+
+			+ "<button type='button' class='btn btn-sm btn-success' id='btn_del' onclick='btn_DeleteComment(" + this.commentNO + ")'>Delete</button>"
+			+ "<button type='button' class='btn btn-sm btn-success' id='btn_change' style='display:none; align:right;' onclick='btn_SaveChange("+ this.commentNO +")'>Save changes</button>"
+			+ "</div>"
+			+ "</li>" + "<hr/>"; 
+			});
+		$("#comments").html(str); 
+		}); 
+	}
+	
+	//enable to modify
+	function btn_ModifyComment(){
+	//Click modify button->text area to modify content and button for save changes
+	
+	/* 모디파이 누르면 텍스트에어리아 오픈, save버튼도 ->value는 commentNO로 가져온 commentContent, 고친후에 save하면 comment update 하고 textare, button 둘다 없어짐*/
+	}
+	
+	
+	//delete comments
+	function btn_DeleteComment(commentNO){
+	$.ajax({
+		type: "delete",
+		url: "${contextPath}/comments/" + commentNO,
+		headers : { "Content-type" : "application/json", "X-HTTP-Method-Override" : "DELETE" },
+		dataType: "text",
+		success: function(data){
+			if(data == "DelSuccess"){
+				alert("successfully deleted");
+			
+			} 
+			getReplies();
+		}
+	});
+	}
+	
+	
+	$(document).ready(function() {
+	
+	$("#comments").on("click", ".commentList #btn_mod", function(){
+		var comment = $(this).parent().parent();
+		var textarea = comment.find("#ch_content");
+		var btn_del = comment.find("#btn_del");
+		var btn_mod = comment.find("#btn_mod");
+		var btn_change = comment.find("#btn_change");
+		
+		/* make delete, modify button invisible, and make text area and save changes button visible */
+		btn_del.css("display", "none");
+		btn_mod.css("display", "none");
+		btn_change.css("display", "block");
+		textarea.css("display", "block");
+		
+	});
+	
+	//save comment change
+	$("#comments").on("click", ".commentList #btn_change", function(){
+		var comment = $(this).parent().parent();
+		var commentNO = comment.attr("reply_no");
+		var comment_content = comment.find("#ch_content").val();
+		
+		$.ajax({
+			type: "put",
+			url: "${contextPath}/comments/" + commentNO,
+			headers : {
+				"Content-type" : "application/json",
+				"X-HTTP-Method-Override" : "PUT" 
+				},
+	
+			dataType: "text",
+			data: JSON.stringify({
+				comment_content: comment_content
+			}),
+			success: function(data){
+				alert(data);
+				getReplies();
+			}
+		});
+		
+	});
+
+	//add comments
+	$(".btn_addComment").on("click", function(){
+		var content = $("#newComment").val();
+		var id = $("#commentWriter").val();
+		
+		$.ajax({
+			type: "post",
+			url: "${contextPath}/comments",
+			headers : {
+				"Content-type" : "application/json",
+				"X-HTTP-Method-Override" : "POST" 
+				},
+	
+			dataType: "text",
+			data: JSON.stringify({
+				articleNO: articleNO,
+				comment_content: content,
+				id: id
+			}),
+			success: function(data){
+				if(data == "Addsuccess"){
+					alert("successfully added");
+				}
+				getReplies();
+				content.val("");
+				id.val("");
+			}
+		});
+		
+	});
+	
+	
+	});
+</script>
+
 </html>

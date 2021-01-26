@@ -7,5 +7,6 @@
 		<typeAlias type="com.spring.shareComm.member.vo.MemberVO" alias="memberVO"/>
 		<typeAlias type="com.spring.shareComm.board.vo.ArticleVO" alias="articleVO"/>
 		<typeAlias type="com.spring.shareComm.like.vo.LikeVO" alias="likeVO"/>
+		<typeAlias type="com.spring.shareComm.comments.vo.CommentVO" alias="commentVO"/>
 	</typeAliases>
 </configuration>
