@@ -63,7 +63,7 @@
 					</c:forEach>
 					<span>[RE]: </span>
 				</c:if>
-				<a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a></td>
+				<a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a> <span style="color: grey;">[${article.commentCount}]</span></td>
 				<td>${article.id}</td>
 				<td>${article.likeCount}</td>
 				<td><fmt:formatDate pattern="yy-MM-dd HH:mm" value="${article.writtenDate}"/></td>

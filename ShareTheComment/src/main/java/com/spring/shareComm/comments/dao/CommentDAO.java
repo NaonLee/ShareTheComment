@@ -14,4 +14,6 @@ public interface CommentDAO {
 	public void updateComment(CommentVO commentVO) throws DataAccessException;
 	
 	public void deleteComment(int commentNO) throws DataAccessException;
+	
+	public void updateCountComm(int articleNO) throws DataAccessException;
 }

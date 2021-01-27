@@ -21,6 +21,13 @@
 		]]>
 	</select>
 	
+	<select id="selectComment" resultType="commentVO" parameterType="int">
+		<![CDATA[
+			SELECT * FROM p_comment
+			WHERE commentNO=#{commentNO}
+		]]>
+	</select>
+	
 	<select id="createCommentNO" resultType="int">
 		<![CDATA[
 			SELECT NVL(MAX(commentNO), 0)+1 
@@ -50,4 +57,12 @@
 		]]>
 	</update>
 	
+	<!-- update how may comments on specific article -->
+	<update id="updateCountComm" parameterType="int">
+		UPDATE p_board
+		SET commentCount = (SELECT COUNT(*)
+		FROM p_comment
+		WHERE articleNO=#{articleNO})
+		WHERE articleNO = #{articleNO}
+	</update>
 </mapper>

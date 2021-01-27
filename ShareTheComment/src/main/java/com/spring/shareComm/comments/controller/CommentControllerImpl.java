@@ -21,12 +21,12 @@ public class CommentControllerImpl implements CommentController {
 	@Autowired
 	CommentService commentService;
 	
+	//Show all comments
 	@RequestMapping(value="/all/{articleNO}", method = RequestMethod.GET)
 	public ResponseEntity<List<CommentVO>> listComment(@PathVariable("articleNO") Integer articleNO){
 		ResponseEntity<List<CommentVO>> entity = null;
 		try {
-			entity = new ResponseEntity<List<CommentVO>>(commentService.allComments(articleNO), HttpStatus.OK);
-			System.out.println(commentService.allComments(articleNO));
+			entity = new ResponseEntity<List<CommentVO>>(commentService.allComments(articleNO), HttpStatus.OK);		//send status ok when all comments successfully loaded
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<List<CommentVO>>(HttpStatus.BAD_REQUEST);
@@ -34,16 +34,13 @@ public class CommentControllerImpl implements CommentController {
 		return entity;
 	}
 
+	//Insert new comment
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public ResponseEntity<String> addComment(@RequestBody CommentVO commentVO) {
 		ResponseEntity<String> entity = null;
-		System.out.println("call addComment");
-		System.out.println("NO: "+commentVO.getArticleNO());
-		System.out.println("ID: "+commentVO.getId());
-		System.out.println("Content: "+commentVO.getComment_content());
 		try {
 			commentService.addComment(commentVO);
-			entity = new ResponseEntity<String>("Addsuccess", HttpStatus.OK);
+			entity = new ResponseEntity<String>("Addsuccess", HttpStatus.OK);				//send status ok when new comment successfully added
 		}catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -51,15 +48,14 @@ public class CommentControllerImpl implements CommentController {
 		return entity;
 	}
 	
+	//update comment
 	@RequestMapping(value="/{commentNO}", method = {RequestMethod.PUT, RequestMethod.PATCH})
 	public ResponseEntity<String> modComment(@PathVariable("commentNO") Integer commentNO, @RequestBody CommentVO commentVO){
 		ResponseEntity<String> entity = null;
-		System.out.println("call update");
-		System.out.println("no-" + commentNO + " con-" + commentVO.getComment_content());
 		try {
 			commentVO.setCommentNO(commentNO);
 			commentService.modComment(commentVO);
-			entity = new ResponseEntity<String>("ModSuccess", HttpStatus.OK);
+			entity = new ResponseEntity<String>("ModSuccess", HttpStatus.OK);				//send status ok when new comment successfully updated
 		}catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -67,12 +63,13 @@ public class CommentControllerImpl implements CommentController {
 		return entity;
 	}
 	
+	//delete comment
 	@RequestMapping(value = "/{commentNO}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> removeComment(@PathVariable("commentNO") Integer commentNO){
 		ResponseEntity<String> entity = null;
 		try {
 			commentService.removeComment(commentNO);
-			entity = new ResponseEntity<String>("DelSuccess", HttpStatus.OK);
+			entity = new ResponseEntity<String>("DelSuccess", HttpStatus.OK);				//send status ok when new comment successfully deleted
 		}catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -18,6 +18,7 @@ public class CommentDAOImpl implements CommentDAO {
 	@Override
 	public List<CommentVO> selectAllComments(int articleNO) throws DataAccessException {
 		List<CommentVO> comments = sqlSession.selectList("mapper.comment.selectAllComments", articleNO);
+		updateCountComm(articleNO);
 		return comments;
 	}
 
@@ -25,8 +26,8 @@ public class CommentDAOImpl implements CommentDAO {
 	public void createComment(CommentVO commentVO) throws DataAccessException {
 		int commentNO = sqlSession.selectOne("mapper.comment.createCommentNO");
 		commentVO.setCommentNO(commentNO);
-		System.out.println("commNO:" + commentNO);
 		sqlSession.insert("mapper.comment.insertComment", commentVO);
+		updateCountComm(commentVO.getArticleNO());
 	}
 
 	@Override
@@ -37,6 +38,13 @@ public class CommentDAOImpl implements CommentDAO {
 	@Override
 	public void deleteComment(int commentNO) throws DataAccessException {
 		sqlSession.delete("mapper.comment.deleteComment", commentNO);
+		CommentVO temp = sqlSession.selectOne("mapper.comment.selectComment", commentNO);
+		updateCountComm(temp.getArticleNO());
+	}
+
+	@Override
+	public void updateCountComm(int articleNO) throws DataAccessException {
+		sqlSession.update("mapper.comment.updateCountComm", articleNO);
 	}
 
 }

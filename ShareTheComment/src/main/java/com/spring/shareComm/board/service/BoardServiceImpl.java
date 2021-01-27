@@ -23,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 		List articlesList = boardDAO.selectAllArticles(criteria);
 		return articlesList;
 	}
-	//count articles
+	@Override	//count articles
 	public int count() throws DataAccessException{
 		return boardDAO.countArticle();
 	}

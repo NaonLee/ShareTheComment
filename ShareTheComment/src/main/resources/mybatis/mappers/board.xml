@@ -12,6 +12,7 @@
 		<result property="writtenDate" column="writtenDate"/>
 		<result property="id" column="id"/>
 		<result property="likeCount" column="likeCount"/>
+		<result property="commentCount" column="commentCount"/>
 		<result property="level" column="lvl"/>
 		<result property="imageFileName" column="imageFileName"/>
 	</resultMap>
@@ -20,9 +21,9 @@
 	<select id="selectAllArticles" resultMap="bodResult">
 		<![CDATA[
 			SELECT * FROM (
-			    SELECT ROWNUM AS recNum,LVL,articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName
+			    SELECT ROWNUM AS recNum,LVL,articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName, commentCount
 			    FROM (
-			        SELECT LEVEL AS LVL, articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName
+			        SELECT LEVEL AS LVL, articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName, commentCount
 			        FROM p_board
 			        START WITH parentNO=0
 			        CONNECT BY PRIOR articleNO=parentNO
