@@ -16,6 +16,23 @@
 		obj.action="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}";
 		obj.submit();
 	}
+	
+	function readURL(input){
+		if(input.files && input.files[0]){
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$('#preview').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	var cnt = 1;
+	function fn_addFile(){
+		$("#d_file").append("<br>" + "<input type='file' name='file" + cnt + '/>");
+		cnt++;
+	}
+	
 </script>
 
 <title>Modify article</title>
@@ -25,7 +42,7 @@
    		<div class="row">
        	 	<div class="col-md-10">
 	       	 	<h2>Modify article</h2>
-	       	 	<form action="${contextPath}/board/modArticle.do"method="post" >
+	       	 	<form action="${contextPath}/board/modArticle.do"method="post" enctype="multipart/form-data">
 	     			<div class="row">
 		        		 <div class="col-md-12">
 							<table class="table table-striped"> 
@@ -48,7 +65,7 @@
 									</tr> 
 									<tr> 
 										<th style="padding-top: 15px">Attached file</th> 
-										<td><input type="file" class="btn btn-default" name="fileName"></td> 
+										<td><input type="file" class="btn btn-default" name="imageFileName" onchange="readURL(this);"></td> 
 									</tr> 	
 								</tbody> 
 							</table>		

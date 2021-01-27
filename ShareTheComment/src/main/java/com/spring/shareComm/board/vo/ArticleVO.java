@@ -1,11 +1,15 @@
 package com.spring.shareComm.board.vo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository("boardVO")
+@Repository("articleVO")
 public class ArticleVO {
 	int articleNO;
 	int parentNO;
@@ -15,6 +19,7 @@ public class ArticleVO {
 	String id;
 	int level;
 	int likeCount;
+	String imageFileName;
 	
 	public ArticleVO() {}
 
@@ -80,6 +85,28 @@ public class ArticleVO {
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
-	
+
+	//image file getter,setter 
+	public String getImageFileName() {
+		try {
+			
+			if(imageFileName != null && imageFileName.length() != 0) {
+				imageFileName = URLDecoder.decode(imageFileName, "UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		try {
+			if(imageFileName != null && imageFileName.length() != 0) {
+				this.imageFileName = URLEncoder.encode(imageFileName,"UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

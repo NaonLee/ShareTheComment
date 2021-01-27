@@ -13,15 +13,16 @@
 		<result property="id" column="id"/>
 		<result property="likeCount" column="likeCount"/>
 		<result property="level" column="lvl"/>
+		<result property="imageFileName" column="imageFileName"/>
 	</resultMap>
 	
 
 	<select id="selectAllArticles" resultMap="bodResult">
 		<![CDATA[
 			SELECT * FROM (
-			    SELECT ROWNUM AS recNum,LVL,articleNO, parentNO, title, content, id, writtenDate, likeCount
+			    SELECT ROWNUM AS recNum,LVL,articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName
 			    FROM (
-			        SELECT LEVEL AS LVL, articleNO, parentNO, title, content, id, writtenDate, likeCount
+			        SELECT LEVEL AS LVL, articleNO, parentNO, title, content, id, writtenDate, likeCount, imageFileName
 			        FROM p_board
 			        START WITH parentNO=0
 			        CONNECT BY PRIOR articleNO=parentNO
@@ -35,8 +36,7 @@
 
 	<select id="selectArticle" resultType="articleVO" parameterType="int">
 		<![CDATA[
-			SELECT * 
-			FROM p_board 
+			SELECT * FROM p_board 
 			WHERE articleNO=#{articleNO}
 		]]>
 	</select>
@@ -48,6 +48,14 @@
 		]]>
 	</select>
 	
+	<select id="countComment" resultType="int" parameterType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM p_comment
+			WHERE articleNO=#{articleNO}
+		]]>
+	</select>
+	
 	<select id="createArticleNO" resultType="int">
 		<![CDATA[
 			SELECT NVL(MAX(ArticleNO), 0)+1 
@@ -55,35 +63,44 @@
 		]]>
 	</select>
 	
-	<insert id="insertArticle" parameterType="articleVO">
+	<insert id="insertArticle" parameterType="java.util.Map">
 		<![CDATA[
-			INSERT INTO p_board(articleNO, title, content, id)
+			INSERT INTO p_board(articleNO, title, content, id, imageFileName)
 			
-			VALUES (#{articleNO}, #{title}, #{content}, #{id})			
+			VALUES (#{articleNO}, #{title}, #{content}, #{id}, #{imageFileName})			
 		]]>
 	</insert>
 	
-	<insert id="insertReply" parameterType="articleVO">
+	<insert id="insertReply" parameterType="java.util.Map">
 		<![CDATA[
-			INSERT INTO p_board(articleNO, parentNO, title, content, id)
+			INSERT INTO p_board(articleNO, parentNO, title, content, id, imageFileName)
 			
-			VALUES (#{articleNO}, #{parentNO}, #{title}, #{content}, #{id})			
+			VALUES (#{articleNO}, #{parentNO}, #{title}, #{content}, #{id}, #{imageFileName})			
 		]]>
 	</insert>
 	
-	<update id="updateArticle" parameterType="articleVO">
-		<![CDATA[
-			UPDATE p_board
-			SET title=#{title}, content=#{content}
-			WHERE articleNO=#{articleNO}
-		]]>
+	<update id="updateArticle" parameterType="java.util.Map">
+		
+		UPDATE p_board
+		SET title=#{title}, content=#{content}
+		<if test="imageFileName!='' and imageFileName!=null">
+		  , imageFileName=#{imageFileName}
+		</if>
+		WHERE articleNO=#{articleNO}
+		
 	</update>
 	
 	<delete id="deleteArticle" parameterType="int">
 		<![CDATA[
-			DELETE 
-			FROM p_board
-			WHERE articleNO=#{articleNO}
+			DELETE FROM p_board
+			WHERE articleNO in (
+				SELECT articleNO FROM p_board
+				START WITH articleNO = #{articleNO}
+				CONNECT BY PRIOR articleNO = parentNO
+			)
 		]]>
 	</delete>
+	
+	
+	
 </mapper>

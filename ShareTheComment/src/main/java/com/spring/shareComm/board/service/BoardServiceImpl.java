@@ -1,6 +1,7 @@
 package com.spring.shareComm.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,33 +17,34 @@ import com.spring.shareComm.common.paging.Criteria;
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDAO boardDAO;
-	@Override
+	
+	@Override	//select all articles
 	public List allArticles(Criteria criteria) throws DataAccessException {
 		List articlesList = boardDAO.selectAllArticles(criteria);
 		return articlesList;
 	}
+	//count articles
 	public int count() throws DataAccessException{
 		return boardDAO.countArticle();
 	}
 	
-	@Override
-	public void addArticle(ArticleVO boardVO) throws DataAccessException {
-		boardDAO.insertArticle(boardVO);
+	@Override	//add a new article
+	public int addArticle(Map articleMap) throws DataAccessException {
+		return boardDAO.insertArticle(articleMap);
 	}
-	@Override
-	public void replyArticle(ArticleVO articleVO) throws DataAccessException {
-		boardDAO.createReply(articleVO);
+	@Override	//reply
+	public int replyArticle(Map articleMap) throws DataAccessException {
+		return boardDAO.createReply(articleMap);
 	}
-	@Override
+	@Override	//select a article by articleNO
 	public ArticleVO article(int articleNO) throws DataAccessException {
 		return boardDAO.selectArticle(articleNO);
 	}
-	@Override
-	public void modArticle(ArticleVO articleVO) throws DataAccessException {
-		boardDAO.updateArticle(articleVO);
-		System.out.println("Sertice articleNO-" + articleVO.getArticleNO() + "content-" + articleVO.getContent());
+	@Override	//update article
+	public void modArticle(Map articleMap) throws DataAccessException {
+		boardDAO.updateArticle(articleMap);
 	}
-	@Override
+	@Override	//delete article
 	public void removeArticle(int articleNO) throws DataAccessException {
 		boardDAO.deleteArticle(articleNO);
 	}

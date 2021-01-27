@@ -156,12 +156,20 @@
 				<tbody> 
 					<tr> 
 						<td colspan="2" height="400" style="word-break:break-all; padding: 3%;"> 
-						${article.content}
+						${article.content}<br>
+						<c:if test="${not empty article.imageFileName && article.imageFileName!='null' }">
+							<img height="50%" width="50%" src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}" id="preview"/>
+						</c:if>
 						</td> 
 					</tr> 
 					<tr> 
 						<th style="padding-top: 15px">Attached file</th> 
-						<td>file name</td> 
+						<td>
+						<c:if test="${not empty article.imageFileName && article.imageFileName!='null' }">
+							 <input type="hidden" name="originalFileName" value="${article.imageFileName}"/>
+							 <p>${article.imageFileName}</p>
+						</c:if>
+						</td> 
 					</tr> 	
 				</tbody> 
 			</table>		
@@ -236,8 +244,9 @@
 	
 </body>
 
-
 <script>
+
+
 	/* functions for comments */	
 	var articleNO = ${article.articleNO}; 
 
@@ -254,13 +263,13 @@
 			+"<div id='test'>"
 			+ "<textarea class='form-control input-sm' rows='2' cols='160%' style='display: none;' id='ch_content'>" + this.comment_content+ "</textarea>"
 			+"</div>"
-			
 			/* button */
 			+"<div align='right'>"
-			
+			+ "<c:if test='true'>"
 			+ "<button type='button' class='btn btn-sm btn-success' id='btn_mod' >Modify</button> "
-
 			+ "<button type='button' class='btn btn-sm btn-success' id='btn_del' onclick='btn_DeleteComment(" + this.commentNO + ")'>Delete</button>"
+			+ " </c:if>"
+			/* invisible until click modify button */
 			+ "<button type='button' class='btn btn-sm btn-success' id='btn_change' style='display:none; align:right;' onclick='btn_SaveChange("+ this.commentNO +")'>Save changes</button>"
 			+ "</div>"
 			+ "</li>" + "<hr/>"; 
