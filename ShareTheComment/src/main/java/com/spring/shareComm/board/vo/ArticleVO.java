@@ -19,11 +19,12 @@ public class ArticleVO {
 	String id;
 	int level;
 	int likeCount;
+	int commentCount;
 	String imageFileName;
 	
 	public ArticleVO() {}
 
-	public ArticleVO(int articleNO, int parentNO, String title, String content, Date writtenDate, String id, int likeCount) {
+	public ArticleVO(int articleNO, int parentNO, String title, String content, Date writtenDate, String id, int likeCount, int commentCount, String imageFileName) {
 		this.articleNO = articleNO;
 		this.parentNO = parentNO;
 		this.title = title;
@@ -31,6 +32,8 @@ public class ArticleVO {
 		this.writtenDate = writtenDate;
 		this.id = id;
 		this.likeCount = likeCount;
+		this.imageFileName = imageFileName;
+		this.commentCount = commentCount;
 	}
 
 	public int getArticleNO() {
@@ -84,6 +87,16 @@ public class ArticleVO {
 
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
+	}
+
+	
+	
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
 	}
 
 	//image file getter,setter 

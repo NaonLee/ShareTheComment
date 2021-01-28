@@ -66,7 +66,6 @@ public class BoardControllerImpl implements BoardController {
 		pageMaker.setTotalCount(boardService.count());				//number of articles
 
 		List articles = boardService.allArticles(criteria);
-		
 		/* to check level
 		 * Iterator<ArticleVO> a = articles.iterator();
 		 * 
