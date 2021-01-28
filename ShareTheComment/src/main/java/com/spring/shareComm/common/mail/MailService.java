@@ -1,4 +1,4 @@
-package com.spring.shareComm.mail;
+package com.spring.shareComm.common.mail;
 
 import javax.mail.internet.MimeMessage;
 
@@ -12,6 +12,7 @@ public class MailService {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	//Send email to the administrator (Contact us)
 	public void sendMail(String from, String title, String body) {
 		MimeMessage message = mailSender.createMimeMessage();
 		
@@ -27,6 +28,7 @@ public class MailService {
 		}
 	}
 	
+	//Send password to email stored in DB
 	public void sendPwd(String email, String pwd) {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();

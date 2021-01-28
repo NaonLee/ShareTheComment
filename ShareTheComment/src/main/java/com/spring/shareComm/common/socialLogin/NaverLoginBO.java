@@ -1,4 +1,4 @@
-package com.spring.shareComm.socialLogin;
+package com.spring.shareComm.common.socialLogin;
 
 import java.io.IOException;
 import java.util.UUID;

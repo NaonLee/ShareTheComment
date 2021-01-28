@@ -1,4 +1,4 @@
-package com.spring.shareComm.mail;
+package com.spring.shareComm.common.mail;
 
 
 
@@ -22,6 +22,7 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 	
+	//Send email to the administrator (email has already set)
 	@RequestMapping(value="/board/sendEmail.do", method=RequestMethod.POST)
 	public ModelAndView sendMail(@RequestParam("email") String email, @RequestParam("title") String title, @RequestParam("body") String body,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,6 +36,7 @@ public class MailController {
 		return mav;
 	}
 	
+	//Send password to email stored in DB
 	@RequestMapping(value="/member/sendPwd.do", method= {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView sendMail(@RequestParam("email") String email, @RequestParam("pwd") String pwd,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {

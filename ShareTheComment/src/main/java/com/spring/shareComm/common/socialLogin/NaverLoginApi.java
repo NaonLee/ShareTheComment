@@ -1,4 +1,4 @@
-package com.spring.shareComm.socialLogin;
+package com.spring.shareComm.common.socialLogin;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
