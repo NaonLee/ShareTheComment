@@ -18,16 +18,17 @@
 	margin-bottom: 5px;
 }
 #sidebar {
-	width: 15%;
+	width: 20%;
 	height: 500px;
 	padding: 5px;
+	margin-left: 15px;
 	margin-right: 5px;
 	margin-bottom: 5px;
 	float: left;
 }
 
 #content {
-	width: 75%;
+	width: 70%;
 	padding: 5px;
 	margin-right: 5px;
 	margin-left: 5%;

@@ -6,26 +6,68 @@
 	request.setCharacterEncoding("UTF-8");
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Main</title>
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+ 
+
 </head>
 <body>
- <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Temp sidebar</div>
-      <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
+	<!-- Server responses get written here -->
+
+		<div id="messages" style="padding-left:10px; width:100%; height: 80%; border:1px solid #C0C0C0; background-color: #DCDCDC;"></div>
+		<div>
+	        <input type="text" id="sender" value="${sessionScope.member.m_id}" style="display: none;">
+	        <input type="text" id="messageinput" style="margin-top:5px; height: 5%; width: 80%;" placeholder="Type..." autofocus>
+	    	<button class="btn btn-primary btn-sm" onclick="send();">Send</button>
+	    </div>
 
 </body>
+
+    <!-- web socket javascript -->
+    <script type="text/javascript">
+        var ws;
+        var messages=document.getElementById("messages");
+        
+        
+        window.onload=function openSocket(){
+            if(ws!==undefined && ws.readyState!==WebSocket.CLOSED){
+                writeResponse("WebSocket is already opened.");
+                return;
+            }
+            //Create web socket object
+            ws=new WebSocket("ws://${contextPath}/echo.do");
+            
+            ws.onopen=function(event){
+                if(event.data===undefined) return;
+                
+                writeResponse(event.data);
+            };
+            ws.onmessage=function(event){
+                writeResponse(event.data);
+            };
+            ws.onclose=function(event){
+                writeResponse("Connection closed");
+            }
+        }
+        
+        function send(){
+            var text=document.getElementById("messageinput").value+","+document.getElementById("sender").value;
+            ws.send(text);
+            text="";
+        }
+        
+        function closeSocket(){
+            ws.close();
+        }
+        function writeResponse(text){
+            messages.innerHTML+="<br/>"+text;
+        }
+  </script>
+
 </html>
