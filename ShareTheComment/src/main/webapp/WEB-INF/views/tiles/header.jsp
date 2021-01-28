@@ -20,7 +20,7 @@
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 	   <div class="container">
-	      <a class="navbar-brand" href="${contextPath}/main.do">ShareTheComment</a>
+	      <a class="navbar-brand" href="${contextPath}/main.do">ShareCommentLike</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         		<span class="navbar-toggler-icon"></span>
       	  </button>
@@ -40,7 +40,7 @@
 		               	${logMember.id}
 		              </a>
 		              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-		                <a class="dropdown-item" href="#">information</a>
+		                <a class="dropdown-item" href="#">MyInfo</a>
 		                <a class="dropdown-item" href="/board/mailForm.do">Contact us</a>
 		                <div class="dropdown-divider"></div>
 		                <a class="dropdown-item" href="${contextPath}/member/logout.do">Logout</a>

@@ -46,9 +46,28 @@
 
 </head>
 <body>
-<h1 align="center">Main Page</h1>
-	<form>
-		<button type="button" onClick="deleteCookie()">Delete Cookie</button>
-	</form>
+	<div class="row">
+		<div class="col-md-12">
+			<div style="position: relative; background-color: #E6E6FA; height: 30%; padding-top: 5%; padding-bottom: 10%; margin-bottom: 2%;">
+				<div align="center">
+					<h1><a href="./" rel="home" >ShareCommentLike</a></h1>
+					<p style="color: #696969;">Let's share thoughts!</p>
+				</div>
+			</div>
+			<div style="float:left; width:40%; text-align:right; margin-right: 10%;">
+				<h1> ShareCommentLike? </h1><hr/>
+				<p style="font-style: italic; color: gray;">Share your opinion, thoughts, and feelings!<br><br>
+				</p>
+				<p><span style="font-weight: bold;">ShareCommentLike</span> provides you an awesome platform.<br>
+					Write your own article on the board or leave comments after sign-in. (You can sign-in with Google or Naver)<br><br>
+					Dive into our community, like other's articles and share your perspective! Every opinion is welcome, however do not forget to respect other people!<br><br>
+					If you have any concern or suggestion, you can contact me with 'Contact US' in the top right corner of the page.</p>
+			</div>
+			
+			<div class="col-md-6" style="float: left; width:45%; margin-left: 5%;">
+				<a href="https://www.linkedin.com/in/naon-lee-931028/"><img  height="90%" width="90%" src="${contextPath}/resources/images/Profile.JPG"></a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

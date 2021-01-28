@@ -24,20 +24,20 @@
 
 </script>
 
-<title>Insert title here</title>
+<title>Pop-up</title>
 </head>
 <body>
 <div class="contentForm" style="position: relative; width: 300px; height: 350px;">
 	<div align="center" id="head">
 		<h3>
-			Hello This is pop up test! 
+			Hello This is Naon! 
 		</h3><br><br>
 		<div id="body">
 			<div class="row">
-				<h5>If you want to check out my career, please see the links below!</h5> <br><br>
+				<h4>I'm currently looking for an opportunity to be a developer.<br>If you would like to contact me,<br>please see the links below!</h4> <br><br>
 			</div>
 			<div class="row">
-				<a href="linkedin.com/in/naon-lee-931028/">Linked In</a>
+				<a href="linkedin.com/in/naon-lee-931028/">LinkedIn</a>
 				<a href="github.com/NaonLee">Github</a>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 	
 	<div id="foot" style="position:absolute; width:100%; bottom: 0; float: right;">
 	<form>
-		<input type="checkbox" onClick="setPopUp(this)" class="btn btn-dark btn-sm">Don't want to show for a day
+		<input type="checkbox" onClick="setPopUp(this)" class="btn btn-dark btn-sm">Don't show for a day
 	</form>
 	</div>
 </div>

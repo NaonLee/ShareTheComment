@@ -25,7 +25,7 @@
 <body class="">
 
     <div class="py-5 bg-dark">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Naon Lee 2021</p>
     </div>
  <!-- Bootstrap core JavaScript -->
   <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
