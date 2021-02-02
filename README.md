@@ -4,8 +4,10 @@ Simple board for sharing ideas
 
 
 ## Views
+
 * Main page
-<img src="https://user-images.githubusercontent.com/42129707/106534571-bf2df980-6537-11eb-8fb3-3c6ff519433b.png" width="900px"><img src="https://user-images.githubusercontent.com/42129707/106534588-c7863480-6537-11eb-986d-120f61797330.png">
+
+<img src="https://user-images.githubusercontent.com/42129707/106534571-bf2df980-6537-11eb-8fb3-3c6ff519433b.png" width="700px"><img src="https://user-images.githubusercontent.com/42129707/106534588-c7863480-6537-11eb-986d-120f61797330.png">
 
 
 * Member sign-in & sign up page
