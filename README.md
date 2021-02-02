@@ -12,11 +12,11 @@ Simple board for sharing ideas
 
 * Member sign-in & sign up page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/42129707/106534601-cf45d900-6537-11eb-9f18-fd34d4cef274.png" width="250px" height="370px">    <img src="https://user-images.githubusercontent.com/42129707/106534627-dd93f500-6537-11eb-91df-3e4accca217c.png" width="550px" height="370px">
+<img src="https://user-images.githubusercontent.com/42129707/106534601-cf45d900-6537-11eb-9f18-fd34d4cef274.png" width="250px" height="330px">    <img src="https://user-images.githubusercontent.com/42129707/106534627-dd93f500-6537-11eb-91df-3e4accca217c.png" width="550px" height="330px">
 </p>
 * Find password by name and id, contact us page
 <p align="center">
-<img src="https://user-images.githubusercontent.com/42129707/106534637-e2f13f80-6537-11eb-86b6-8bf79d8492c8.png" width="400px" height="240px">    <img src="https://user-images.githubusercontent.com/42129707/106534644-e8e72080-6537-11eb-8be2-39e6adb2b08e.png" width="400px" height="240px">
+<img src="https://user-images.githubusercontent.com/42129707/106534637-e2f13f80-6537-11eb-86b6-8bf79d8492c8.png" width="400px" height="230px">    <img src="https://user-images.githubusercontent.com/42129707/106534644-e8e72080-6537-11eb-8be2-39e6adb2b08e.png" width="400px" height="230px">
 </p>
 * Board (List, article view, write/reply/modify article)
 <p align="center">
@@ -25,7 +25,7 @@ Simple board for sharing ideas
 </p>
 * Administration menu
 <p align="center">
-<img src="https://user-images.githubusercontent.com/42129707/106534744-18962880-6538-11eb-8228-c0f05a28e1e7.png" width="500px" height="300px">     <img src="https://user-images.githubusercontent.com/42129707/106534746-1a5fec00-6538-11eb-8941-55149925154e.png" width="250px" height="300px">
+<img src="https://user-images.githubusercontent.com/42129707/106534744-18962880-6538-11eb-8228-c0f05a28e1e7.png" width="500px" height="280px">     <img src="https://user-images.githubusercontent.com/42129707/106534746-1a5fec00-6538-11eb-8941-55149925154e.png" width="250px" height="280px">
 </p>
 ## DB Structure
 <p align="center">
